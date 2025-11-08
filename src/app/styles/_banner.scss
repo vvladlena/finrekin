@@ -1,0 +1,36 @@
+.banner-content {
+  display: flex;
+  align-items: space-between;
+  justify-content: space-around;
+  gap: 1.5rem;
+  padding: 48px 36px;
+  border-radius: 20px;
+  background: url("/images/background/banner.svg") no-repeat center/cover;
+}
+.banner-title {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 600;
+  color: #fff;
+  width: 40%;
+}
+.text-standard.banner-desc {
+  color: #fff;
+  width: 40%;
+}
+
+@media (max-width: 768px) {
+  .banner-content {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    background-position: left bottom;
+    padding-bottom: 56px;
+    .banner-title {
+      width: 100%;
+    }
+    .text-standard.banner-desc {
+      width: 100%;
+    }
+  }
+}

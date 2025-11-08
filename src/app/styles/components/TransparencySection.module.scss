@@ -1,0 +1,125 @@
+.transparency {
+  padding: 4rem 0;
+
+  .wrapper {
+    display: grid;
+    grid-template-columns: 59% 40%;
+    gap: 1%;
+    align-items: stretch;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .content {
+    background: url("/images/background/transparency-bg.svg") no-repeat
+      center/cover;
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid #edeeef;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 1rem;
+    line-height: 24px;
+  }
+
+  .highlight {
+    color: var(--color-secondary);
+  }
+
+  .description {
+    color: var(--color-textStandard);
+    margin-bottom: 2rem;
+    line-height: 16px;
+    font-size: 12px;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .item {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+
+    > * {
+      flex: 1 1 50%;
+    }
+  }
+
+  .itemTitle {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    margin-right: 16px;
+    font-size: 14px;
+    line-height: 18px;
+    position: relative;
+    padding-left: 40px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 10px;
+      background-image: url("/images/icons/arrows-blue.svg");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+
+  .itemText {
+    color: #555;
+    line-height: 16px;
+    font-size: 12px;
+    a {
+      color: var(--color-secondary);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  }
+
+  .images {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+    .imageTop,
+    .imageBottom {
+      border-radius: 20px;
+      overflow: hidden;
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      min-height: 200px;
+      @media (max-width: 900px) {
+        min-height: 350px;
+      }
+    }
+
+    .image {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 900px) {
+      flex-direction: row;
+    }
+  }
+}

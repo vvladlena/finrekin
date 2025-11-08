@@ -1,0 +1,107 @@
+.stepsSection {
+  padding: 5rem 0;
+  background: #fff;
+  position: relative;
+  text-align: center;
+
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+
+      span {
+        color: var(--color-secondary);
+      }
+    }
+  }
+}
+
+.stepsWrapper {
+  position: relative;
+  margin-top: 4rem;
+  height: 320px; // потрібно, щоб елементи мали місце зверху і знизу
+}
+
+.pathLine {
+  position: absolute;
+  top: -100px;
+  left: 45px;
+  width: 100%;
+  height: 100%;
+}
+
+.steps {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.step {
+  width: 14%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  .circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--color-secondary);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  p {
+    margin-top: 1rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    max-width: 150px;
+  }
+
+  &.top {
+    align-self: flex-start;
+    transform: translateY(-40px);
+  }
+
+  &.bottom {
+    align-self: flex-end;
+    transform: translateY(40px);
+  }
+}
+
+@media (max-width: 768px) {
+  .stepsWrapper {
+    height: auto;
+  }
+
+  .pathLine {
+    display: none;
+  }
+
+  .steps {
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    position: static;
+  }
+
+  .step {
+    width: 45%;
+    transform: none !important;
+  }
+}

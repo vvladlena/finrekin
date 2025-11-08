@@ -1,0 +1,78 @@
+.hero {
+  .section-wrapper {
+    padding: 0 0 50px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    > * {
+      flex: 1 1 50%;
+      max-width: 40%;
+    }
+
+    @media (max-width: 768px) {
+      > * {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+    }
+  }
+  .text-primary {
+    font-size: 2.4rem;
+    font-weight: 600;
+    max-width: 400px;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .description-txt {
+    margin-bottom: 1.5rem;
+  }
+}
+.hero-image {
+  img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+}
+
+.hero-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); // 4 елементи в ряд
+  gap: 20px;
+  margin-top: -10%;
+
+  .hero-item {
+    background: #fff;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    font-weight: 600;
+    border-radius: 20px;
+    box-sizing: border-box;
+
+    &.invert {
+      background: var(--color-secondary);
+
+      .btn-secondary,
+      .hero-service {
+        color: #fff;
+      }
+    }
+  }
+
+  .hero-service {
+    font-weight: 400;
+    margin-top: auto;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}

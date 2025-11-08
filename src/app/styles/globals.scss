@@ -1,0 +1,185 @@
+@use "@/app/styles" as *;
+
+/* ============================= */
+/* 🌈 Global Variables           */
+/* ============================= */
+:root {
+  --color-primary: #1e3a8a;
+  --color-secondary: #36a8c3;
+  --color-neutral: #f9fafb;
+  --color-textPrimary: #111827;
+  --color-textSecondary: #6b7280;
+  --color-textStandard: #070707;
+
+  --font-main: "Montserrat", Arial, sans-serif;
+}
+
+/* ============================= */
+/* ⚙️ Global Reset & Base Styles */
+/* ============================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: var(--font-main);
+  background-color: var(--color-neutral);
+  color: var(--color-textPrimary);
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================= */
+/* 🧱 Utility Classes (optional) */
+/* ============================= */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+section {
+  padding: 40px 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-primary {
+  color: var(--color-textPrimary);
+  font-weight: 500;
+}
+
+.text-secondary {
+  color: var(--color-secondary);
+}
+.text-standard {
+  font-size: 14px;
+  color: var(--color-textSecondary);
+  font-weight: 400;
+  line-height: 16px;
+}
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.btn-primary {
+  color: var(--color-textPrimary);
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--color-secondary);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: start;
+}
+
+.btn-secondary {
+  font-size: 1rem;
+  font-weight: 400;
+  color: (var(--color-secondary));
+  text-align: left;
+}
+.btn-bold {
+  display: block;
+  color: #fff;
+  border-radius: 20px;
+  background-color: var(--color-secondary);
+  // width: 260px;
+  padding: 0.95rem 1.5rem;
+  text-align: center;
+  line-height: 16px;
+  max-width: 260px;
+}
+.standard-title {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 600;
+}
+.section-title {
+  margin-bottom: 2.25rem;
+  display: flex;
+  font-size: 12px;
+  line-height: 19px;
+  img {
+    margin-right: 8px;
+  }
+}
+
+.standard-content {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2.25rem;
+  .standard-title {
+    width: 45%;
+  }
+  .text-standard {
+    width: 40%;
+    margin-left: auto;
+  }
+}
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column;
+    .standard-title,
+    .text-standard {
+      width: 100%;
+    }
+    .text-standard {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+  }
+}
+
+.opinions {
+  a {
+    display: none !important;
+    opacity: 0 !important;
+  }
+}

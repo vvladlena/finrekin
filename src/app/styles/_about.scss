@@ -1,0 +1,31 @@
+.member-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+.member-item {
+  height: 200px;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  padding: 2rem;
+  border: 1px solid #edeeef;
+  max-width: 500px;
+}
+.member-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.member-desc {
+  width: 50%;
+}
+
+@media (max-width: 768px) {
+  .member-list {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+}
