@@ -17,15 +17,40 @@
   padding: 2rem;
   border-radius: 20px;
   color: #fff;
-  width: 90%;
-  min-width: 60%;
-  max-width: 420px;
+
+  width: 550px;
+  max-width: 550px;
+  min-width: 400px;
+
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -10px; /* трохи вище форми */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 120px;
+    background-image: url("/images/background/form-bg.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    pointer-events: none; /* щоб не блокував кліки */
+    // z-index: 102;
+    border-radius: 20px;
+  }
+
+  > * {
+    position: relative;
+    z-index: 2; /* щоб контент був поверх */
+  }
 }
+
 .contactForm__body {
   width: 100%;
 }
@@ -154,6 +179,34 @@
     width: 100%;
   }
 }
+
+.contactForm__textarea {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  resize: none;
+  margin-bottom: 1rem;
+  transition: background 0.3s ease;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &:focus {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+// стилі для кастомного фону
+.customBg {
+  background: var(--color-accent);
+}
+
 :global(.react-tel-input .form-control) {
   background: rgba(255, 255, 255, 0.2) !important;
   color: #fff !important;
@@ -177,10 +230,8 @@
 :global(.flag-dropdown) {
   height: 45px !important;
   background: none !important;
+  border: none !important;
 }
-// :global(.flag-dropdown .open) {
-//   background: none !important;
-// }
 
 :global(.react-tel-input .selected-flag) {
   padding: 0 0 0 1rem !important;

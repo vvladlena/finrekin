@@ -12,6 +12,7 @@
   --color-textStandard: #070707;
 
   --font-main: "Montserrat", Arial, sans-serif;
+  --header-height: 55px;
 }
 
 /* ============================= */
@@ -31,6 +32,7 @@ body {
   background-color: var(--color-neutral);
   color: var(--color-textPrimary);
   line-height: 1.5;
+  padding-top: var(--header-height);
 }
 
 a {

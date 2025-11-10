@@ -1,0 +1,70 @@
+.contact-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 32px;
+  //   flex-wrap: wrap;
+}
+.contact-text {
+  display: flex;
+  width: auto;
+  flex-direction: column;
+  background-image: url("/images/background/contact-bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 32px;
+  border-radius: 20px;
+  .standard-content {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: unset;
+    .text-standard {
+      margin-left: unset;
+      width: 80%;
+      margin-bottom: 32px;
+    }
+    .standard-title {
+      font-size: 2rem;
+      line-height: 2rem;
+      width: 350px;
+      margin-bottom: 24px;
+    }
+  }
+  .social-wrapper {
+    display: flex;
+  }
+  .socialLinks {
+    display: flex;
+    gap: 8px;
+    margin-right: 24px;
+
+    img {
+      width: 46px;
+      height: 46px;
+    }
+  }
+  .phone-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .phone-number {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-textPrimary);
+      text-decoration: none;
+    }
+    p {
+      font-size: 10px;
+      color: var(--color-textSecondary);
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .contact-wrapper {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

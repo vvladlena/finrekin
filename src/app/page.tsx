@@ -8,6 +8,7 @@ import OpinionsSection from "@/sections/OpinionsSection";
 import StepsSection from "@/sections/StepsSection";
 import FAQSection from "@/sections/FAQSection";
 import PriceSection from "@/sections/PriceSection";
+import ContactFormSection from "@/sections/ContactFormSection";
 export default function HomePage() {
   return (
     <>
@@ -16,6 +17,7 @@ export default function HomePage() {
       <AboutSection />
       <BannerSection />
       <AreaSection />
+      <ContactFormSection />
       <TransparencySection />
       <OpinionsSection />
       <StepsSection />

@@ -4,17 +4,25 @@ import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import styles from "@/app/styles/components/ContactForm.module.scss";
-
 interface ContactFormProps {
-  isOpen: boolean;
-  onClose: () => void;
+  mode?: "static" | "modal";
+  isOpen?: boolean; // тільки для modal
+  onClose?: () => void; // тільки для modal
+  variant?: "default" | "comment" | "customBg";
+  bgColor?: string;
 }
 
-export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
+export default function ContactForm({
+  mode = "static",
+  isOpen = true,
+  onClose,
+  variant = "default",
+  bgColor,
+}: ContactFormProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [phone, setPhone] = useState("");
 
-  if (!isOpen) return null;
+  if (mode === "modal" && !isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,13 +31,22 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
   };
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.contactForm} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.contactForm__close} onClick={onClose}>
-          ×
-        </button>
+    <div
+      className={mode === "modal" ? styles.overlay : undefined}
+      onClick={mode === "modal" ? onClose : undefined}
+    >
+      <div
+        className={styles.contactForm}
+        onClick={(e) => e.stopPropagation()}
+        style={{ backgroundColor: bgColor }}
+      >
+        {mode === "modal" && (
+          <button className={styles.contactForm__close} onClick={onClose}>
+            ×
+          </button>
+        )}
 
-        <h2 className={styles.contactForm__title}>Zarezerwuj połączenie</h2>
+        <h2 className={styles.contactForm__title}>Zostaw prośbę</h2>
 
         <form className={styles.contactForm__body} onSubmit={handleSubmit}>
           <div className={styles.contactForm__group}>
@@ -41,32 +58,25 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
               required
             />
 
-            {/* Поле телефону */}
+            {/* Телефон */}
             <div className={styles.phoneWrapper}>
               <PhoneInput
                 country={"pl"}
                 value={phone}
                 onChange={setPhone}
                 enableSearch={true}
-                inputClass={styles.contactForm__input} // стилі для самого інпуту
-                inputProps={{
-                  name: "phone",
-                  required: true,
-                }}
-                containerStyle={{ width: "100%", background: "none" }}
-                buttonStyle={{
-                  border: "none",
-                  borderRadius: "8px 0 0 8px",
-                  background: "rgba(255, 255, 255, 0.2)",
-                  height: "40px",
-                }}
-                dropdownStyle={{
-                  borderRadius: "8px",
-                  maxHeight: "200px",
-                }}
+                inputClass={styles.contactForm__input}
+                inputProps={{ name: "phone", required: true }}
               />
             </div>
           </div>
+
+          {variant !== "default" && (
+            <textarea
+              className={styles.contactForm__textarea}
+              placeholder="Napisz, w jakiej sprawie możemy Ci pomóc"
+            />
+          )}
 
           <label className={styles.contactForm__checkbox}>
             <input type="checkbox" name="privacy" required />
@@ -79,7 +89,7 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
           </label>
 
           <button type="submit" className={styles.contactForm__submit}>
-            Wyślij zastosowanie
+            Uzyskaj poradę
           </button>
 
           {isSubmitted && (
@@ -92,3 +102,7 @@ export default function ContactForm({ isOpen, onClose }: ContactFormProps) {
     </div>
   );
 }
+
+// <ContactForm mode="modal" variant="default" />
+// <ContactForm mode="static" variant="comment" />
+// <ContactForm mode="static" variant="customBg" bgColor="#4c2882" />

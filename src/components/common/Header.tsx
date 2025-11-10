@@ -82,6 +82,7 @@ export default function Header() {
 
               <ContactForm
                 isOpen={isContactOpen}
+                mode="modal"
                 onClose={() => setIsContactOpen(false)}
               />
             </li>
