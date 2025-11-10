@@ -166,7 +166,8 @@ section {
   }
 }
 @media (max-width: 768px) {
-  .about-content {
+  .about-content,
+  .standard-content {
     flex-direction: column;
     .standard-title,
     .text-standard {
