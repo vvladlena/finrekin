@@ -62,6 +62,15 @@ export default function StepsSection() {
             ))}
           </div>
         </div>
+        <div className="steps-image">
+          <Image
+            src="/images/background/steps-bg.png"
+            alt="Steps Illustration"
+            width={0}
+            height={0}
+            sizes="100vw"
+          />
+        </div>
       </div>
     </section>
   );
