@@ -62,13 +62,16 @@ export default function StepsSection() {
             ))}
           </div>
         </div>
-        <div className="steps-image">
+        <div className={styles.stepsImage}>
           <Image
             src="/images/background/steps-bg.png"
             alt="Steps Illustration"
-            width={0}
-            height={0}
+            fill
             sizes="100vw"
+            style={{
+              objectFit: "cover",
+              borderRadius: "20px",
+            }}
           />
         </div>
       </div>
