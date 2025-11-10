@@ -198,7 +198,7 @@ const services: ServiceBlock[] = [
 
 export default function PriceSection() {
   return (
-    <section className="price-section">
+    <section className="price-section" id="services">
       <div className="container">
         <div className="section-title">
           <img src="/images/icons/arrows.svg" alt="section arrows" />

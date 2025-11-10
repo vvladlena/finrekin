@@ -19,8 +19,8 @@ export default function HomePage() {
       <TransparencySection />
       <OpinionsSection />
       <StepsSection />
-      <FAQSection />
       <PriceSection />
+      <FAQSection />
     </>
   );
 }

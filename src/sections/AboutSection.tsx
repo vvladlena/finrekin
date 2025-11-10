@@ -21,7 +21,7 @@ const members = [
 
 export default function AboutSection() {
   return (
-    <section className="about">
+    <section className="about" id="about">
       <div className="container">
         <div className="section-title">
           <img src="/images/icons/arrows.svg" alt="section arrows" />
