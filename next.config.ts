@@ -6,8 +6,7 @@ const nextConfig: NextConfig = {
 
   reactCompiler: true,
   output: isDev ? undefined : "export", // ❗ тільки для продакшену
-  basePath: isDev ? undefined : "/finrekin",
-  assetPrefix: isDev ? undefined : "/finrekin/",
+
   images: {
     unoptimized: true,
   },
