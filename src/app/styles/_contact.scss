@@ -1,8 +1,10 @@
 .contact-wrapper {
   display: flex;
+  flex-wrap: wrap;
+  // justify-content: center;
+  // align-items: center;
   width: 100%;
-  gap: 32px;
-  //   flex-wrap: wrap;
+  gap: 2rem;
 }
 .contact-text {
   display: flex;
@@ -12,8 +14,9 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  padding: 32px;
+  padding: 2rem;
   border-radius: 20px;
+  flex: 1;
   .standard-content {
     display: flex;
     flex-direction: column;
@@ -72,7 +75,7 @@
 .contact-section {
   .contact-wrapper {
     background-color: var(--color-secondary);
-    padding: 36px;
+    padding: 2rem;
     border-radius: 20px;
   }
   .contact-text {
@@ -85,12 +88,15 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 40%;
+    // width: 40%;
+    flex: 1;
     .contact-link {
       color: #fff;
       font-size: 1.5rem;
       line-height: normal;
       font-weight: 600;
+      margin-bottom: 16px;
+      display: block;
     }
     .social-links {
       display: flex;
@@ -109,9 +115,9 @@
     .standard-content {
       width: 100%;
     }
-    .contact-link {
-      margin-bottom: 16px;
-      display: block;
-    }
+    // .contact-link {
+    //   margin-bottom: 16px;
+    //   display: block;
+    // }
   }
 }
