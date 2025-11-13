@@ -14,17 +14,13 @@ export default function StepsSection() {
   return (
     <section className={styles.stepsSection}>
       <div className="container">
-        <div className={styles.header}>
-          <Image
-            src="/images/icons/arrows.svg"
-            alt="arrows"
-            width={40}
-            height={40}
-          />
-          <h2>
-            Od aplikacji <span>do wyników</span>
-          </h2>
+        <div className="section-title">
+          <img src="/images/icons/arrows.svg" alt="section arrows" />
+          <p>Etapy pracy</p>
         </div>
+        <h2>
+          Od aplikacji <span>do wyników</span>
+        </h2>
 
         <div className={styles.stepsWrapper}>
           <svg
@@ -34,13 +30,12 @@ export default function StepsSection() {
           >
             <polyline
               points="
-      50,80
-      250,180
-      450,80
-      650,180
-      850,80
-      1050,180
-     
+      95,80
+      295,180
+      495,80
+      695,180
+      895,80
+      1095,180
     "
               stroke="#36a8c3"
               strokeWidth="3"

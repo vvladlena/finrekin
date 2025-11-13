@@ -1,6 +1,11 @@
 "use client";
 import Image from "next/image";
+
+import { useState } from "react";
+import ContactForm from "@/components/common/ContactForm/ContactForm";
+
 export default function Hero() {
+  const [isFormOpen, setIsFormOpen] = useState(false);
   return (
     <section className="hero">
       <div className="container">
@@ -17,7 +22,7 @@ export default function Hero() {
               rozwiązania, które sprawiają, że księgowość jest prosta, a kwestie
               podatkowe przewidywalne.
             </p>
-            <button className="btn-primary">
+            <button className="btn-primary" onClick={() => setIsFormOpen(true)}>
               Skontaktuj się z nami
               <Image
                 src="/images/icons/arrows.svg"
@@ -48,7 +53,9 @@ export default function Hero() {
               className="service-icon"
             />
             <h3 className="hero-service">Księgowość</h3>
-            <button className="btn-secondary">Sprawdź koszt →</button>
+            <a href="#services" className="btn-secondary">
+              Sprawdź koszt →
+            </a>
           </li>
           <li className="hero-item">
             <Image
@@ -59,7 +66,9 @@ export default function Hero() {
               className="service-icon"
             />
             <h3 className="hero-service">Legalizacja pobytu</h3>
-            <button className="btn-secondary">Sprawdź koszt →</button>
+            <a href="#services" className="btn-secondary">
+              Sprawdź koszt →
+            </a>
           </li>
           <li className="hero-item invert">
             <Image
@@ -70,9 +79,20 @@ export default function Hero() {
               className="service-icon"
             />
             <h3 className="hero-service">Skontaktuj się z nami</h3>
-            <button className="btn-secondary btn-secondary--invert">
+
+            <button
+              className="btn-secondary btn-secondary--invert"
+              onClick={() => setIsFormOpen(true)}
+            >
               Zostaw prośbę →
             </button>
+
+            <ContactForm
+              mode="modal"
+              isOpen={isFormOpen}
+              onClose={() => setIsFormOpen(false)}
+              variant="comment"
+            />
           </li>
           <li className="hero-item">
             <Image
@@ -83,7 +103,9 @@ export default function Hero() {
               className="service-icon"
             />
             <h3 className="hero-service">Usługi dodatkowe</h3>
-            <button className="btn-secondary">Sprawdź koszt →</button>
+            <a href="#services" className="btn-secondary">
+              Sprawdź koszt →
+            </a>
           </li>
         </ul>
       </div>

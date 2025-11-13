@@ -4,19 +4,12 @@
   position: relative;
   text-align: center;
 
-  .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
 
-    h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-
-      span {
-        color: var(--color-secondary);
-      }
+    span {
+      color: var(--color-secondary);
     }
   }
 }
@@ -30,7 +23,7 @@
 .pathLine {
   position: absolute;
   top: -100px;
-  left: 45px;
+  left: 0;
   // width: calc(100% - 45px);
   width: 100%;
   height: 100%;
