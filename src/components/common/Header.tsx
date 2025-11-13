@@ -57,14 +57,7 @@ export default function Header() {
                 Wrocław, ul. Parkowa 25
               </a>
 
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.linkSmall}
-              >
-                Jak się tam dostać?
-              </a>
+              <p className={styles.linkSmall}>Adres naszego biura</p>
             </li>
 
             {/* Телефон */}

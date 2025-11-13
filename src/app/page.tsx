@@ -9,6 +9,7 @@ import StepsSection from "@/sections/StepsSection";
 import FAQSection from "@/sections/FAQSection";
 import PriceSection from "@/sections/PriceSection";
 import ContactFormSection from "@/sections/ContactFormSection";
+import ContactSection from "@/sections/ContactSection";
 export default function HomePage() {
   return (
     <>
@@ -23,6 +24,7 @@ export default function HomePage() {
       <StepsSection />
       <PriceSection />
       <FAQSection />
+      <ContactSection />
     </>
   );
 }

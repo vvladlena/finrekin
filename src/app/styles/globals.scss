@@ -10,8 +10,9 @@
   --color-textPrimary: #111827;
   --color-textSecondary: #6b7280;
   --color-textStandard: #070707;
-
   --font-main: "Montserrat", Arial, sans-serif;
+  font-family: var(--font-main), sans-serif;
+
   --header-height: 55px;
 }
 

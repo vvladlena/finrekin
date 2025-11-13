@@ -4,6 +4,7 @@ import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import styles from "@/app/styles/components/ContactForm.module.scss";
+
 interface ContactFormProps {
   mode?: "static" | "modal";
   isOpen?: boolean; // тільки для modal
@@ -36,9 +37,13 @@ export default function ContactForm({
       onClick={mode === "modal" ? onClose : undefined}
     >
       <div
-        className={styles.contactForm}
+        className={`${styles.contactForm} ${
+          variant === "customBg" ? styles.contactForm__customBg : ""
+        }`}
         onClick={(e) => e.stopPropagation()}
-        style={{ backgroundColor: bgColor }}
+        style={
+          variant === "customBg" ? { backgroundColor: bgColor } : undefined
+        }
       >
         {mode === "modal" && (
           <button className={styles.contactForm__close} onClick={onClose}>
@@ -102,7 +107,3 @@ export default function ContactForm({
     </div>
   );
 }
-
-// <ContactForm mode="modal" variant="default" />
-// <ContactForm mode="static" variant="comment" />
-// <ContactForm mode="static" variant="customBg" bgColor="#4c2882" />

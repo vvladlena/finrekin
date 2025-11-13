@@ -18,7 +18,7 @@ export default function Hero() {
               podatkowe przewidywalne.
             </p>
             <button className="btn-primary">
-              Bezpłatna konsultacja{" "}
+              Skontaktuj się z nami
               <Image
                 src="/images/icons/arrows.svg"
                 alt="strzałki"

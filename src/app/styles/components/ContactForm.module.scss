@@ -49,6 +49,90 @@
     position: relative;
     z-index: 2; /* щоб контент був поверх */
   }
+  &__customBg {
+    background: --color-neutral;
+    color: var(--color-textPrimary);
+    &::before {
+      background-image: url("/images/background/contact-bg-white.svg");
+    }
+    .contactForm__input,
+    .contactForm__textarea {
+      background: #f3f4f6;
+      color: var(--color-textPrimary);
+
+      &::placeholder {
+        color: #9ca3af; // сірий
+      }
+
+      &:focus {
+        background: #f3f4f6;
+        &::placeholder {
+          color: transparent;
+        }
+      }
+    }
+
+    .contactForm__submit {
+      background: var(--color-textPrimary);
+      color: #fff;
+
+      &:hover {
+        background: #374151;
+      }
+    }
+
+    .contactForm__title {
+      color: var(--color-textPrimary);
+    }
+
+    :global(.react-tel-input .form-control) {
+      background: #f3f4f6 !important;
+      color: var(--color-textPrimary) !important;
+      border: none !important;
+      border-radius: 8px !important;
+      width: 100%;
+      padding: 0.9rem 1rem 0.9rem 3rem !important;
+      font-size: 0.95rem !important;
+      outline: none !important;
+      margin-bottom: 0.9rem !important;
+      transition: background 0.3s ease;
+      height: 45px;
+
+      &::placeholder {
+        color: #9ca3af !important; // сірий
+      }
+
+      &:focus {
+        background: #f3f4f6 !important;
+        &::placeholder {
+          color: transparent !important;
+        }
+      }
+    }
+
+    :global(.flag-dropdown) {
+      height: 45px !important;
+      background: none !important;
+      border: none !important;
+    }
+
+    :global(.react-tel-input .selected-flag) {
+      padding: 0 0 0 1rem !important;
+      background: none !important;
+    }
+
+    :global(.country-list .country) {
+      color: var(--color-textPrimary) !important;
+      display: flex !important;
+      align-items: center !important;
+      background: #fff !important;
+    }
+
+    :global(.dial-code) {
+      margin-left: auto !important;
+      color: #6b7280 !important; // приглушений сірий
+    }
+  }
 }
 
 .contactForm__body {
@@ -163,6 +247,7 @@
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
   font-size: 0.95rem;
+  font-weight: 400;
   outline: none;
   margin-bottom: 0.9rem;
   transition: background 0.3s ease;
@@ -173,6 +258,9 @@
 
   &:focus {
     background: rgba(255, 255, 255, 0.3);
+    &::placeholder {
+      color: transparent;
+    }
   }
 
   @media (max-width: 478px) {
@@ -188,6 +276,7 @@
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
   font-size: 0.95rem;
+  font-weight: 400;
   outline: none;
   resize: none;
   margin-bottom: 1rem;
@@ -199,12 +288,10 @@
 
   &:focus {
     background: rgba(255, 255, 255, 0.3);
+    &::placeholder {
+      color: transparent;
+    }
   }
-}
-
-// стилі для кастомного фону
-.customBg {
-  background: var(--color-accent);
 }
 
 :global(.react-tel-input .form-control) {
