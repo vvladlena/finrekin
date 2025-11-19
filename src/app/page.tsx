@@ -1,30 +1,7 @@
-import Hero from "@/sections/Hero";
-import OffersSection from "@/sections/OffersSection";
-import AboutSection from "@/sections/AboutSection";
-import BannerSection from "@/sections/BannerSection";
-import AreaSection from "@/sections/AreaSection";
-import TransparencySection from "@/sections/TransparencySection";
-import OpinionsSection from "@/sections/OpinionsSection";
-import StepsSection from "@/sections/StepsSection";
-import FAQSection from "@/sections/FAQSection";
-import PriceSection from "@/sections/PriceSection";
-import ContactFormSection from "@/sections/ContactFormSection";
-import ContactSection from "@/sections/ContactSection";
-export default function HomePage() {
+export default function RootPage() {
   return (
-    <>
-      <Hero />
-      <OffersSection />
-      <AboutSection />
-      <BannerSection />
-      <AreaSection />
-      <ContactFormSection />
-      <TransparencySection />
-      <OpinionsSection />
-      <StepsSection />
-      <PriceSection />
-      <FAQSection />
-      <ContactSection />
-    </>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
+      <h1>Wybierz język / Оберіть мову</h1>
+    </div>
   );
 }

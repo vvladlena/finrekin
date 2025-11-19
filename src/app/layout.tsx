@@ -1,5 +1,4 @@
 import "./styles/globals.scss";
-
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import { Montserrat } from "next/font/google";
@@ -7,15 +6,9 @@ import { Montserrat } from "next/font/google";
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-main", // створює CSS-змінну
-  display: "swap", // щоб не миготів при завантаженні
+  variable: "--font-main",
+  display: "swap",
 });
-
-export const metadata = {
-  title: "FinRekin — Profesjonalne usługi księgowe",
-  description:
-    "Pomagamy Twojej firmie skupić się na rozwoju, zajmując się księgowością.",
-};
 
 export default function RootLayout({
   children,
@@ -23,12 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pl" className={montserrat.variable}>
+    <html className={montserrat.variable}>
       <body>
-        <Header />
-
+        <Header /> {/* Тут буде перемикач мов */}
         <main>{children}</main>
-
         <Footer />
       </body>
     </html>

@@ -84,7 +84,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    .btn-bold {
+    .btn-bold,
+    .btn-secondary {
       width: 12.5rem;
       margin-left: auto;
     }

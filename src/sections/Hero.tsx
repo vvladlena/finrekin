@@ -1,29 +1,45 @@
 "use client";
 import Image from "next/image";
-
 import { useState } from "react";
 import ContactForm from "@/components/common/ContactForm/ContactForm";
 
-export default function Hero() {
+type HeroProps = {
+  hero: {
+    title: string;
+    description: string;
+    buttonText: string;
+    backgroundUrl?: string;
+  } | null;
+};
+
+export default function Hero({ hero }: HeroProps) {
+  console.log("Hero props:", hero);
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  if (!hero) {
+    return (
+      <section className="hero">
+        <div className="container">
+          <h1>Loading...</h1>
+        </div>
+      </section>
+    );
+  }
+
+  const title = hero.title?.trim() || "";
+  const description = hero.description?.trim() || "";
+  const buttonText = hero.buttonText?.trim() || "";
+  const backgroundUrl = hero.backgroundUrl || "/images/hero-img.png";
+
   return (
     <section className="hero">
       <div className="container">
         <div className="section-wrapper">
-          <h1 className="hero-title text-primary">
-            FINREKIN - zaufane{" "}
-            <span className="text-secondary">biuro rachunkowe</span> we
-            Wrocławiu
-          </h1>
+          <h1 className="hero-title text-primary">{title}</h1>
           <div className="description-wrapper">
-            <p className="description-txt">
-              Pomagamy firmom rozwijać się, zapewniając{" "}
-              <strong>niezawodne wsparcie księgowe,</strong> oferując
-              rozwiązania, które sprawiają, że księgowość jest prosta, a kwestie
-              podatkowe przewidywalne.
-            </p>
+            <p className="description-txt">{description}</p>
             <button className="btn-primary" onClick={() => setIsFormOpen(true)}>
-              Skontaktuj się z nami
+              {buttonText}
               <Image
                 src="/images/icons/arrows.svg"
                 alt="strzałki"
@@ -34,15 +50,17 @@ export default function Hero() {
             </button>
           </div>
         </div>
+
         <div className="hero-image">
           <Image
-            src="/images/hero-img.png"
-            alt="księgowy Wrocław"
+            src={backgroundUrl}
+            alt="hero image"
             width={0}
             height={0}
             sizes="100vw"
           />
         </div>
+
         <ul className="hero-list">
           <li className="hero-item">
             <Image
@@ -79,7 +97,6 @@ export default function Hero() {
               className="service-icon"
             />
             <h3 className="hero-service">Skontaktuj się z nami</h3>
-
             <button
               className="btn-secondary btn-secondary--invert"
               onClick={() => setIsFormOpen(true)}
