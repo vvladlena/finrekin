@@ -1,0 +1,22 @@
+{
+    "collectionName": "components_sections_section_prices",
+    "info": {
+        "displayName": "Section Price",
+        "icon": "strikeThrough"
+    },
+    "options": {},
+    "attributes": {
+        "mainTitle": {
+            "type": "string"
+        },
+        "title": {
+            "type": "richtext"
+        },
+        "prices": {
+            "type": "component",
+            "component": "item.price-list",
+            "repeatable": true
+        }
+    },
+    "config": {}
+}

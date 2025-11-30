@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_sections_section_areas",
+  "info": {
+    "displayName": "Section Area",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "richtext"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "areas": {
+      "type": "component",
+      "component": "areas.area-list",
+      "repeatable": true
+    },
+    "additionalText": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

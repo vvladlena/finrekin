@@ -1,0 +1,17 @@
+{
+    "collectionName": "components_sections_section_opinions",
+    "info": {
+        "displayName": "Section Opinion",
+        "icon": "star"
+    },
+    "options": {},
+    "attributes": {
+        "mainTitle": {
+            "type": "string"
+        },
+        "title": {
+            "type": "richtext"
+        }
+    },
+    "config": {}
+}

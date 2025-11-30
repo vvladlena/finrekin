@@ -1,33 +1,111 @@
+// src/lib/strapi.ts
 import "server-only";
+import { STRAPI_URL } from "./strapi-utils";
+import qs from "qs";
 
-export const STRAPI_URL =
-  process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+// --- Об'єкт populate (КОРЕКТНА ФІНАЛЬНА ВЕРСІЯ) ---
+const DYNAMIC_ZONE_POPULATE = {
+  Content_Blocks: {
+    on: {
+      // ✅ Section Hero: Вкладений компонент з медіа
+      "sections.section-hero": {
+        populate: { uslugi: { populate: ["image"] } },
+      },
+      // ✅ Section Offers: Вкладений компонент з медіа
+      "sections.section-offers": {
+        populate: { oferty: { populate: ["image"] } },
+      },
+      // ✅ Section About: Вкладений компонент з медіа
+      "sections.section-about": {
+        populate: { workers: { populate: ["photo"] } },
+      },
+      // ✅ Section Banner: Просто булеве значення
+      "sections.section-banner": true,
+      // ✅ Section Area: Вкладений компонент з медіа
+      "sections.section-area": { populate: { areas: { populate: ["icon"] } } },
 
+      // ✅ Section Transparency: Масив рядків для полів
+      "sections.section-transparency": {
+        populate: ["photo1", "photo2", "transparency_list"],
+      },
+
+      "sections.section-opinion": true,
+      "sections.section-steps": { populate: ["image", "steps"] },
+      "sections.section-price": { populate: ["prices"] },
+      "sections.section-faq": { populate: ["questions"] },
+      "sections.section-contact": {
+        populate: ["form_settings"],
+      },
+      "sections.section-form": {
+        populate: ["form_settings"],
+      },
+    },
+  },
+};
+const HEADER_POPULATE = {
+  header_data: {
+    populate: {
+      logo: true,
+      menu: true,
+    },
+  },
+};
+
+const FOOTER_POPULATE = {
+  footer_data: true,
+};
 export async function fetchStrapi(path: string, locale: string) {
-  const url = `${STRAPI_URL}/api/${path}?populate=*&locale=${locale}`;
-  console.log("Fetching Strapi URL:", url); // <- дебаг
+  const combinedPopulate = {
+    ...DYNAMIC_ZONE_POPULATE,
+    ...HEADER_POPULATE,
+    ...FOOTER_POPULATE,
+  };
+
+  const query = qs.stringify(
+    {
+      locale: locale,
+      populate: combinedPopulate,
+    },
+    {
+      encodeValuesOnly: true,
+      arrayFormat: "repeat",
+    }
+  );
+  const url = `${STRAPI_URL}/api/${path}?${query}`;
+
+  // console.log("Strapi Fetch URL:", url);
+
   const res = await fetch(url, { next: { revalidate: 60 } });
-
-  if (!res.ok) {
-    console.error("❌ Strapi error:", await res.text());
-    return null;
-  }
-
   const json = await res.json();
-  console.log("Strapi response:", json);
-  return json.data?.attributes || null;
+
+  if (!res.ok || !json.data) {
+    console.error("Strapi fetch failed:", json);
+    throw new Error(
+      `Failed to fetch Strapi data from ${url}. Status: ${
+        res.status
+      }. Details: ${JSON.stringify(json.error || "No error details")}`
+    );
+  }
+  return json.data;
 }
 
-export async function getHero(locale: string) {
-  const data = await fetchStrapi("hero", locale);
+export async function getLandingPage(locale: string) {
+  const data = await fetchStrapi("landing-page", locale);
 
-  if (!data)
-    return { title: "", description: "", buttonText: "", backgroundUrl: "" };
+  if (!data) {
+    // Повертаємо обидва поля як null/порожній масив у разі помилки
+    return { headerData: null, footerData: null, blocks: [] };
+  }
 
+  // ✅ Витягуємо дані хедера
+  const headerData = data.header_data || null;
+
+  // Витягуємо блоки
+  const blocks = data.Content_Blocks || [];
+  const footerData = data.footer_data || null;
   return {
-    title: data.title || "",
-    description: data.description || "",
-    buttonText: data.buttonText || "",
-    backgroundUrl: data.background?.data?.attributes?.url || "",
+    headerData,
+    footerData,
+    blocks: blocks,
   };
 }

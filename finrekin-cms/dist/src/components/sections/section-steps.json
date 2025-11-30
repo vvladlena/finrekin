@@ -1,0 +1,32 @@
+{
+    "collectionName": "components_sections_section_steps",
+    "info": {
+        "displayName": "Section Steps",
+        "icon": "manyToMany"
+    },
+    "options": {},
+    "attributes": {
+        "mainTitle": {
+            "type": "string"
+        },
+        "title": {
+            "type": "richtext"
+        },
+        "image": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "images",
+                "files",
+                "videos",
+                "audios"
+            ]
+        },
+        "steps": {
+            "type": "component",
+            "component": "item.short-text",
+            "repeatable": true
+        }
+    },
+    "config": {}
+}

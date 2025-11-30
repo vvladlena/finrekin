@@ -1,0 +1,42 @@
+{
+    "collectionName": "components_sections_section_transparencies",
+    "info": {
+        "displayName": "Section Transparency",
+        "icon": "layout"
+    },
+    "options": {},
+    "attributes": {
+        "title": {
+            "type": "richtext"
+        },
+        "description": {
+            "type": "text"
+        },
+        "photo1": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "images",
+                "files",
+                "videos",
+                "audios"
+            ]
+        },
+        "photo2": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "images",
+                "files",
+                "videos",
+                "audios"
+            ]
+        },
+        "transparency_list": {
+            "type": "component",
+            "component": "item.simple-text",
+            "repeatable": true
+        }
+    },
+    "config": {}
+}

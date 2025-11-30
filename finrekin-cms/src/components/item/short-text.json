@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_item_short_texts",
+  "info": {
+    "displayName": "Short text",
+    "icon": "quote"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

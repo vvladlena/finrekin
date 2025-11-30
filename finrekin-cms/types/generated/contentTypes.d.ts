@@ -467,12 +467,12 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiHeroHero extends Struct.SingleTypeSchema {
-  collectionName: 'heroes';
+export interface ApiLandingPageLandingPage extends Struct.SingleTypeSchema {
+  collectionName: 'landing_pages';
   info: {
-    displayName: 'Hero';
-    pluralName: 'heroes';
-    singularName: 'hero';
+    displayName: 'Landing page';
+    pluralName: 'landing-pages';
+    singularName: 'landing-page';
   };
   options: {
     draftAndPublish: true;
@@ -483,41 +483,48 @@ export interface ApiHeroHero extends Struct.SingleTypeSchema {
     };
   };
   attributes: {
-    background: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios'
+    Content_Blocks: Schema.Attribute.DynamicZone<
+      [
+        'sections.section-hero',
+        'sections.section-offers',
+        'sections.section-about',
+        'sections.section-banner',
+        'sections.section-area',
+        'sections.section-transparency',
+        'sections.section-opinion',
+        'sections.section-steps',
+        'sections.section-form',
+        'sections.section-faq',
+        'sections.section-price',
+        'sections.section-contact',
+      ]
     > &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    buttonText: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<'Skontaktuj si\u0119 z nami'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text &
+    footer_data: Schema.Attribute.Component<'sections.footer', false> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
-      }> &
-      Schema.Attribute.DefaultTo<'Pomagamy firmom rozwija\u0107 si\u0119, zapewniaj\u0105c niezawodne wsparcie ksi\u0119gowe, oferuj\u0105c rozwi\u0105zania, kt\u00F3re sprawiaj\u0105, \u017Ce ksi\u0119gowo\u015B\u0107 jest prosta, a kwestie podatkowe przewidywalne.'>;
+      }>;
+    header_data: Schema.Attribute.Component<'sections.header', false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::hero.hero'>;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::landing-page.landing-page'
+    >;
     publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.Text &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Schema.Attribute.DefaultTo<'FINREKIN - zaufane biuro rachunkowe we Wroc\u0142awiu'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1069,7 +1076,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::hero.hero': ApiHeroHero;
+      'api::landing-page.landing-page': ApiLandingPageLandingPage;
       'api::offer.offer': ApiOfferOffer;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

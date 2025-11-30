@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_section_banners",
+  "info": {
+    "displayName": "Section Banner",
+    "icon": "server"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    }
+  },
+  "config": {}
+}

@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_item_socials_lists",
+  "info": {
+    "displayName": "Socials list",
+    "icon": "paperPlane"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "link": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

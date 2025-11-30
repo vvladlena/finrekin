@@ -1,0 +1,34 @@
+{
+    "collectionName": "components_sections_section_forms",
+    "info": {
+        "displayName": "Section Form",
+        "icon": "message"
+    },
+    "options": {},
+    "attributes": {
+        "mainTitle": {
+            "type": "string"
+        },
+        "title": {
+            "type": "richtext"
+        },
+        "description": {
+            "type": "text"
+        },
+        "phone": {
+            "type": "string"
+        },
+        "telegram_link": {
+            "type": "string"
+        },
+        "instagram_link": {
+            "type": "string"
+        },
+        "form_settings": {
+            "type": "component",
+            "component": "forms.form",
+            "repeatable": false
+        }
+    },
+    "config": {}
+}

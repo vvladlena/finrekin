@@ -1,31 +1,69 @@
-"use client";
 import styles from "@/app/styles/components/Footer.module.scss";
 
-export default function Footer() {
+// 1. СТРУКТУРА ДАНИХ Strapi
+interface FooterData {
+  prawa: string;
+  company: string;
+  street: string;
+  city: string;
+  nip: string;
+  regon: string;
+  kapital: string;
+  polityka: string;
+
+  privacyPolicyUrl?: string;
+}
+
+interface FooterProps {
+  data: FooterData;
+}
+
+// ✅ Видаляємо "use client" і робимо його Server Component
+export default function Footer({ data }: FooterProps) {
   const currentYear = new Date().getFullYear();
+
+  // Деструктуризація для зручності
+  const { prawa, company, street, city, nip, regon, kapital, polityka } = data;
+
+  // 🛑 Якщо data відсутні (наприклад, ще не опубліковані), повертаємо null або placeholder
+  if (!data || !prawa) {
+    console.warn("Footer data is missing or incomplete.");
+    return null;
+  }
+
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.footer__inner}>
+          {/* Блок 1: Авторське право та назва компанії */}
           <div className={styles.footer__col}>
-            <p>Wszelkie prawa zastrzeżone © {currentYear}</p>
-            <p>Finrekin spółka z ograniczoną odpowiedzialnością</p>
+            {/* Використовуємо поле 'prawa' зі Strapi та додаємо поточний рік */}
+            <p>
+              {prawa} © {currentYear}
+            </p>
+            <p>{company}</p>
           </div>
 
+          {/* Блок 2: Адреса */}
           <div className={styles.footer__col}>
-            <p>ul. Parkowa 25 lok. 58</p>
-            <p>51-616 Wrocław</p>
+            {/* Strapi має поле 'address', використовуємо його */}
+            <p>{street}</p>
+            {/* Якщо потрібно окремо місто/індекс, створіть для них окремі поля у Strapi */}
+            <p>{city}</p>
           </div>
 
+          {/* Блок 3: Реєстраційні дані */}
           <div className={styles.footer__col}>
-            <p>NIP 8982310567</p>
-            <p>REGON 529341562</p>
-            <p>Kapitał zakładowy 5000 zł</p>
+            <p>{nip}</p>
+            <p>{regon}</p>
+            <p>{kapital}</p>
           </div>
 
+          {/* Блок 4: Посилання */}
           <div className={styles.footer__links}>
-            <a href="mailto:tsenzeria.v@gmail.com">Tworzenie stron</a>
-            <a href="#">Polityka prywatności</a>
+            <a href="mailto:tsenzeria.v@gmail.com">Website development</a>
+
+            <a href="#polityka-prywatnosci">{polityka}</a>
           </div>
         </div>
       </div>

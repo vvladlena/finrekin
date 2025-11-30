@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_sections_section_contacts",
+  "info": {
+    "displayName": "Section Contact",
+    "icon": "envelop"
+  },
+  "options": {},
+  "attributes": {
+    "mainTitle": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "addres": {
+      "type": "string"
+    },
+    "mail": {
+      "type": "string"
+    },
+    "instagram_link": {
+      "type": "string"
+    },
+    "telegram_link": {
+      "type": "string"
+    },
+    "form_settings": {
+      "type": "component",
+      "component": "forms.form",
+      "repeatable": false
+    }
+  },
+  "config": {}
+}

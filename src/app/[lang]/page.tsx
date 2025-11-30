@@ -1,41 +1,37 @@
-import Hero from "@/sections/Hero";
-import OffersSection from "@/sections/OffersSection";
-import AboutSection from "@/sections/AboutSection";
-import BannerSection from "@/sections/BannerSection";
-import AreaSection from "@/sections/AreaSection";
-import TransparencySection from "@/sections/TransparencySection";
-import OpinionsSection from "@/sections/OpinionsSection";
-import StepsSection from "@/sections/StepsSection";
-import FAQSection from "@/sections/FAQSection";
-import PriceSection from "@/sections/PriceSection";
-import ContactFormSection from "@/sections/ContactFormSection";
-import ContactSection from "@/sections/ContactSection";
-import { getHero } from "@/lib/strapi";
+// src/app/[lang]/page.tsx
+
+import { getLandingPage } from "@/lib/strapi";
+import DynamicZoneRenderer from "@/components/DynamicZoneRenderer/DynamicZoneRenderer";
 
 export default async function HomePage({
   params,
 }: {
-  params: Promise<{ lang: string }>;
+  params: { lang: string };
 }) {
-  const { lang } = await params;
+  // Вирішуємо params, щоб гарантовано отримати об'єкт.
+  const resolvedParams = await Promise.resolve(params);
+  const lang = resolvedParams.lang;
 
-  console.log("LANG PARAM:", lang); // DEBUG
+  if (!lang) {
+    // Якщо з якоїсь причини lang не визначено, повертаємо помилку або дефолтний контент
+    console.error("Language parameter is missing.");
+    return (
+      <main className="container pt-20">
+        <h1>Не вдалося визначити мову.</h1>
+      </main>
+    );
+  }
 
-  const hero = await getHero(lang);
-  return (
-    <>
-      <Hero hero={hero} />
-      <OffersSection />
-      <AboutSection />
-      <BannerSection />
-      <AreaSection />
-      <ContactFormSection />
-      <TransparencySection />
-      <OpinionsSection />
-      <StepsSection />
-      <PriceSection />
-      <FAQSection />
-      <ContactSection />
-    </>
-  );
+  // КРОК 1: Завантажуємо ВСІ дані сторінки одним запитом
+  const pageData = await getLandingPage(lang);
+  if (!pageData || !pageData.blocks || pageData.blocks.length === 0) {
+    return (
+      <main className="container pt-20">
+        <h1>Помилка завантаження контенту або контент відсутній.</h1>
+      </main>
+    );
+  }
+
+  // КРОК 2: Передаємо масив блоків у рендерер
+  return <DynamicZoneRenderer blocks={pageData.blocks} />;
 }
