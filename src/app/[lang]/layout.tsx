@@ -3,18 +3,11 @@ import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import { ReactNode } from "react";
 
-// ✅ Шлях до стилів і шрифти залишаємо як є
+// ✅ Шлях до стилів залишаємо, оскільки вони потрібні тут
 import "@/app/styles/globals.scss";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-main",
-  display: "swap",
-});
 
 // --- 1. Явне визначення типів для усунення помилки TypeScript ---
+// Спрощений тип, що відповідає очікуванням Next.js для цього сегмента
 interface LanguageLayoutProps {
   children: ReactNode;
   params: { lang: string };
@@ -25,8 +18,11 @@ interface LanguageLayoutProps {
 export default async function LanguageLayout({
   children,
   params,
-}: LanguageLayoutProps) {
-  // ✅ Використовуємо явно визначений тип
+}: {
+  children: ReactNode;
+  params: { lang: string };
+}) {
+  // ✅ Використовуємо вбудовану типізацію прямо тут
 
   // ✅ Викликаємо Strapi API для локалі з параметрів
   const { headerData, footerData } = await getLandingPage(params.lang);
@@ -44,10 +40,15 @@ export default async function LanguageLayout({
 
 // --- 4. generateStaticParams: Обов'язково для динамічного маршруту [lang] ---
 export async function generateStaticParams() {
+  // Визначаємо тип об'єкта локалі для безпечного мапінгу
+  type Locale = { code: string };
+
   // Отримуємо локалі зі Strapi
   try {
-    const locales = await getAvailableLocales();
-    // Повертаємо масив об'єктів { lang: 'uk' }
+    // Явно вказуємо, що getAvailableLocales повертає масив Locale
+    const locales: Locale[] = (await getAvailableLocales()) as Locale[];
+
+    // ✅ БЕЗПЕЧНИЙ МЕПІНГ: Тепер TypeScript знає, що 'locale' має 'code'
     return locales.map((locale) => ({ lang: locale.code }));
   } catch (error) {
     console.error(

@@ -109,8 +109,7 @@ export async function getLandingPage(locale: string) {
     blocks: blocks,
   };
 }
-
-export async function getAvailableLocales() {
+export async function getAvailableLocales(): Promise<{ code: string }[]> {
   const url = `${STRAPI_URL}/api/i18n/locales`;
 
   try {
@@ -124,11 +123,11 @@ export async function getAvailableLocales() {
     }
 
     // Припускаємо, що API повертає масив об'єктів { id: 1, name: 'Ukrainian', code: 'uk', ... }
-    // Ми трансформуємо його, щоб отримати лише масив { lang: 'uk' }
-    return json.map((locale) => ({ lang: locale.code }));
+    // Ми повертаємо масив, де кожен елемент має 'code'
+    return json.map((locale) => ({ code: locale.code })); // <-- Тут ми використовуємо 'code'
   } catch (error) {
     console.error("Error fetching locales:", error);
     // Повертаємо дефолтні локалі у випадку помилки
-    return [{ lang: "pl" }];
+    return [{ code: "pl" }]; // <-- Тут також повертаємо 'code', а не 'lang'
   }
 }
