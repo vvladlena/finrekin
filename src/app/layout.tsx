@@ -1,51 +1,34 @@
-import { ReactNode } from "react";
-// Припустимо, що ваш файл зі стилями називається globals.css
-import "@/app/styles/globals.scss";
+// src/app/layout.tsx
 
-// 1. Імпортуємо ваші компоненти
-import Header from "@/components/common/Header";
-import Footer from "@/components/common/Footer";
-// 2. Імпортуємо функцію для отримання даних
-import { getLandingPage, getAvailableLocales } from "@/lib/strapi";
+// ✅ Імпортуємо шрифти (вони мають бути визначені тут один раз)
+import { Montserrat } from "next/font/google";
 
-// --- 3. ВИЗНАЧЕННЯ ТИПІВ ---
-interface LayoutProps {
-  children: ReactNode;
-  params: {
-    lang: string; // Це динамічний сегмент [lang]
-  };
-}
+// Визначення шрифту Монтсеррат
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-main",
+  display: "swap",
+});
 
-// --- 4. ASYNC Layout Component ---
-// Використовуємо 'async' для завантаження даних (Server Component)
-export default async function RootLayout({ children, params }: LayoutProps) {
-  // 5. Викликаємо Strapi API
-  // Вважаємо, що getLandingPage повертає { headerData, footerData, blocks }
-  const { headerData, footerData } = await getLandingPage(params.lang);
+// ✅ Визначення Metadata (для SEO, тощо)
+export const metadata = {
+  title: "My Strapi Next App",
+  description: "Powered by Strapi and Next.js",
+};
 
-  // 6. Передаємо дані в компоненти
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  // ⚠️ Немає params, тут ми не знаємо, яка локаль
+
   return (
-    <html lang={params.lang}>
-      <body>
-        {/* Компонент Header */}
-        {headerData && <Header data={headerData} />}
+    <html lang="pl" suppressHydrationWarning={true}>
+      <head>{/* Тут можуть бути ваші метатеги */}</head>
 
-        {/* Основний вміст сторінки */}
-        <main>{children}</main>
-
-        {/* Компонент Footer */}
-        {footerData && <Footer data={footerData} />}
-      </body>
+      <body className={montserrat.variable}>{children}</body>
     </html>
   );
-}
-
-// --- 7. (ОПЦІЙНО) Не забудьте про generateStaticParams ---
-// Ця функція допомагає Next.js знати, які мови він повинен підтримувати
-export async function generateStaticParams() {
-  // ✅ НОВИЙ ВИКЛИК: Динамічно отримуємо локалі зі Strapi
-  const locales = await getAvailableLocales();
-
-  // Повертаємо отриманий масив у форматі Next.js: [{ lang: 'pl' }, { lang: 'uk' }, ...]
-  return locales;
 }
