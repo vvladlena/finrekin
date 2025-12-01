@@ -109,3 +109,26 @@ export async function getLandingPage(locale: string) {
     blocks: blocks,
   };
 }
+
+export async function getAvailableLocales() {
+  const url = `${STRAPI_URL}/api/i18n/locales`;
+
+  try {
+    const res = await fetch(url, { next: { revalidate: 3600 } }); // Кешуємо на годину
+    const json = await res.json();
+
+    if (!res.ok || !Array.isArray(json)) {
+      console.error("Failed to fetch locales from Strapi:", json);
+      // Повертаємо дефолтні локалі у випадку помилки
+      return [{ code: "pl" }];
+    }
+
+    // Припускаємо, що API повертає масив об'єктів { id: 1, name: 'Ukrainian', code: 'uk', ... }
+    // Ми трансформуємо його, щоб отримати лише масив { lang: 'uk' }
+    return json.map((locale) => ({ lang: locale.code }));
+  } catch (error) {
+    console.error("Error fetching locales:", error);
+    // Повертаємо дефолтні локалі у випадку помилки
+    return [{ lang: "pl" }];
+  }
+}
