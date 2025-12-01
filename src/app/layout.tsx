@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 // Припустимо, що ваш файл зі стилями називається globals.css
-import "@/app/styles/globals.css";
+import "@/app/styles/globals.scss";
 
 // 1. Імпортуємо ваші компоненти
 import Header from "@/components/common/Header";
