@@ -13,7 +13,9 @@ export default async function LanguageLayout({
   children: ReactNode;
   params: { lang: string };
 }) {
-  const { lang } = params;
+  const resolvedParams = await params;
+  const lang = resolvedParams.lang;
+
   const resolvedLang = lang ?? "pl"; // дефолтна мова
 
   const { headerData, footerData } = await getLandingPage(resolvedLang);
