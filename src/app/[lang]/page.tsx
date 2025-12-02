@@ -13,8 +13,8 @@ export default async function HomePage({
   // const resolvedParams = await Promise.resolve(params);
   // const lang = resolvedParams.lang;
 
-  // const lang = params.lang;
-  const { lang } = await params;
+  const lang = params.lang;
+  // const { lang } = await params;
   if (!lang) {
     // Якщо з якоїсь причини lang не визначено, повертаємо помилку або дефолтний контент
     console.error("Language parameter is missing.");

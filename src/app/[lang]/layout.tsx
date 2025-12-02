@@ -16,7 +16,8 @@ export default async function LanguageLayout({
   // const lang = params.lang ?? "pl";
 
   // const { headerData, footerData } = await getLandingPage(lang);
-  const { lang } = await params; // ⬅ отримуємо реальний об’єкт
+  // const { lang } = await params; // ⬅ отримуємо реальний об’єкт
+  const { lang } = params;
   const resolvedLang = lang ?? "pl"; // дефолтна мова
 
   const { headerData, footerData } = await getLandingPage(resolvedLang);
