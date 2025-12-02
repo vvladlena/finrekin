@@ -10,13 +10,9 @@ export default async function HomePage({
 }) {
   console.log("PARAMS:", params);
   // // Вирішуємо params, щоб гарантовано отримати об'єкт.
-  // const resolvedParams = await Promise.resolve(params);
-  // const lang = resolvedParams.lang;
 
   const lang = params.lang;
-  // const { lang } = await params;
   if (!lang) {
-    // Якщо з якоїсь причини lang не визначено, повертаємо помилку або дефолтний контент
     console.error("Language parameter is missing.");
     return (
       <main className="container pt-20">
