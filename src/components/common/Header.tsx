@@ -3,16 +3,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import styles from "@/app/styles/components/Header.module.scss";
 import ContactForm from "@/components/common/ContactForm/ContactForm";
 import { STRAPI_URL } from "@/lib/strapi-utils";
 
-// --- ТИПИ СИРИХ ДАНИХ (Відповідають структурі компонента Strapi 'header_data') ---
+// --- ТИПИ СИРИХ ДАНИХ ---
 type FlatStrapiMedia = {
   id: number;
-  url: string; // ✅ Доступний безпосередньо!
+  url: string;
   alternativeText: string | null;
-  // інші поля (width, height, size, mime, ext)
 };
 
 type MenuItem = {
@@ -32,47 +32,67 @@ type HeaderData = {
   telegram_link: string | null;
 };
 
-// --- Компонент Хедеру ---
+// --- КОНСТАНТА: Статичний список доступних мов ---
+const SUPPORTED_LOCALES = ["pl", "uk", "en"];
 
+// --- Компонент Хедеру ---
 type HeaderProps = {
-  // Тут ми очікуємо дані, отримані з data.headerData
   data: HeaderData | null;
 };
 
+/**
+ * Формує новий URL, замінюючи мовний сегмент у поточному шляху.
+ * Наприклад: '/pl/contact' + 'uk' -> '/uk/contact'
+ */
+const getPathnameForLocale = (
+  currentPathname: string,
+  targetLocale: string
+) => {
+  const segments = currentPathname.split("/").filter(Boolean); // Розбиваємо та видаляємо порожні сегменти
+
+  // Перевіряємо, чи перший сегмент (index 0) є кодом мови
+  const isLocaleSegment =
+    segments[0] && SUPPORTED_LOCALES.includes(segments[0]);
+
+  if (isLocaleSegment) {
+    // Замінюємо сегмент мови на цільову мову
+    segments[0] = targetLocale;
+    return `/${segments.join("/")}`;
+  }
+
+  // Це резервний варіант, якщо URL не починається з мовного сегменту (хоча в App Router це має бути рідкістю)
+  return `/${targetLocale}${
+    currentPathname.startsWith("/") ? currentPathname : "/" + currentPathname
+  }`;
+};
+
 export default function Header({ data }: HeaderProps) {
-  // ✅ ХУКИ: Виклики хуків знаходяться на початку функції, ДО будь-яких умовних 'return'
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-  const [language, setLanguage] = useState("PL");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
-
+  const pathname = usePathname();
+  const autoLang = pathname.split("/")[1];
   // 🔒 Блокуємо скрол при відкритому меню
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "auto";
-
-    // Cleanup function
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [isMobileMenuOpen]);
 
+  // Перевірка даних Strapi
   if (!data || !data.menu || data.menu.length === 0) {
     return null;
   }
 
   const header = data;
 
-  // Присвоєння змінних (безпечне після перевірки)
   const relativeLogoUrl = header.logo?.url;
   const logoAlt = header.logo?.alternativeText || "Logo";
   const navLinks = header.menu;
   const logoUrl = relativeLogoUrl
     ? `${STRAPI_URL}${relativeLogoUrl}`
     : undefined;
-  const handleLanguageChange = (lang: string) => {
-    setLanguage(lang);
-    setIsLangMenuOpen(false);
-  };
 
   // Хендлер для закриття меню та модалки
   const closeMobileMenuAndContact = () => {
@@ -80,15 +100,15 @@ export default function Header({ data }: HeaderProps) {
     setIsContactOpen(true);
   };
 
+  const langOptions = ["pl", "en", "uk"].filter((lang) => lang !== autoLang);
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        {logoUrl ? ( // ✅ УМОВНИЙ РЕНДЕРИНГ: Рендеримо, тільки якщо є URL
-          <Link href="/" className={styles.logo}>
+        {logoUrl ? (
+          // Посилання на головну сторінку поточної мови
+          <Link href={`/${autoLang}/`} className={styles.logo}>
             <Image
-              // ⚠️ ДОДАТКОВЕ ВИПРАВЛЕННЯ: Strapi повертає відносний URL.
-              // Можливо, потрібно додати базовий URL (STRAPI_URL) на початку,
-              // якщо Next.js не налаштований на автоматичний proxy.
               src={logoUrl}
               alt={logoAlt}
               width={120}
@@ -97,7 +117,7 @@ export default function Header({ data }: HeaderProps) {
             />
           </Link>
         ) : (
-          <Link href="/" className={styles.logo}>
+          <Link href={`/${autoLang}/`} className={styles.logo}>
             <h1>logo</h1>
           </Link>
         )}
@@ -105,7 +125,13 @@ export default function Header({ data }: HeaderProps) {
         {/* Навігація (десктоп) */}
         <nav className={styles.navDesktop}>
           {navLinks.map((link) => (
-            <Link key={link.id} href={link.description}>
+            <Link
+              key={link.id}
+              // Створюємо посилання з префіксом поточної мови
+              href={`/${autoLang}${
+                link.description.startsWith("/") ? "" : "/"
+              }${link.description}`}
+            >
               {link.title}
             </Link>
           ))}
@@ -163,14 +189,13 @@ export default function Header({ data }: HeaderProps) {
             )}
           </ul>
 
-          {/* Перемикач мов (Залишено статичним) */}
+          {/* Перемикач мов (Статичний) */}
           <div className={styles.languageSwitcher}>
             <button
-              onClick={() => setIsLangMenuOpen((prev) => !prev)}
+              onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
               className={styles.langButton}
             >
-              {language}
-
+              {autoLang.toUpperCase()}
               <svg
                 className={styles.langArrow}
                 xmlns="http://www.w3.org/2000/svg"
@@ -189,14 +214,15 @@ export default function Header({ data }: HeaderProps) {
 
             {isLangMenuOpen && (
               <div className={styles.langMenu}>
-                {["PL", "UA", "EN", "RU"].map((lang) => (
-                  <button
-                    key={lang}
-                    onClick={() => handleLanguageChange(lang)}
+                {langOptions.map((localeCode) => (
+                  <Link
+                    key={localeCode}
+                    href={getPathnameForLocale(pathname, localeCode)}
+                    onClick={() => setIsLangMenuOpen(false)}
                     className={styles.langOption}
                   >
-                    {lang}
-                  </button>
+                    {localeCode.toUpperCase()}
+                  </Link>
                 ))}
               </div>
             )}
@@ -244,7 +270,9 @@ export default function Header({ data }: HeaderProps) {
         {navLinks.map((link) => (
           <Link
             key={link.id}
-            href={link.description}
+            href={`/${autoLang}${link.description.startsWith("/") ? "" : "/"}${
+              link.description
+            }`}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             {link.title}

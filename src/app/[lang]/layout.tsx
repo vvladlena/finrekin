@@ -4,21 +4,26 @@ import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import { ReactNode } from "react";
 
-// --- Головний компонент Layout ---
-// ✅ ВИПРАВЛЕННЯ: Використовуємо async компонент з найпростішою вбудованою типізацією
-export default async function LanguageLayout({
-  children,
-  params,
-}: {
+// 1. Оголошуємо тип явно
+interface Props {
   children: ReactNode;
   params: { lang: string };
-}) {
-  // ✅ Викликаємо Strapi API для локалі з параметрів
-  const { headerData, footerData } = await getLandingPage(params.lang);
+}
+
+// 2. Явно експортуємо, щоб уникнути проблем із динамічною оцінкою
+export const dynamic = "auto";
+
+// 3. Використовуємо async компонент з явною Props
+export default async function LanguageLayout({ children, params }: Props) {
+  // ✅ ВИПРАВЛЕННЯ: Гарантуємо, що lang має значення, використовуючи 'pl' як відкат
+  const lang = params.lang || "pl";
+
+  // Викликаємо Strapi API для локалі з параметрів
+  const { headerData, footerData } = await getLandingPage(lang);
 
   return (
-    // ⚠️ Компонент повертає лише фрагмент, оскільки <html> та <body> вже визначені
     <>
+      {/* ✅ ПЕРЕДАЄМО: Тепер передаємо безпечну змінну lang */}
       <Header data={headerData} />
       <main>{children}</main>
       <Footer data={footerData} />
@@ -26,14 +31,12 @@ export default async function LanguageLayout({
   );
 }
 
-// --- generateStaticParams: Обов'язково для динамічного маршруту [lang] ---
+// 4. generateStaticParams залишається, щоб Next.js знав, які сторінки генерувати
 export async function generateStaticParams() {
   // Визначаємо тип об'єкта локалі для безпечного мапінгу
   type Locale = { code: string };
 
-  // Отримуємо локалі зі Strapi
   try {
-    // Явно приводимо до типу Locale[] для усунення помилки 'code'
     const locales: Locale[] = (await getAvailableLocales()) as Locale[];
 
     return locales.map((locale) => ({ lang: locale.code }));
@@ -41,7 +44,6 @@ export async function generateStaticParams() {
     console.error(
       "Failed to generate static params from Strapi. Using fallback."
     );
-    // Fallback
     return [{ lang: "pl" }];
   }
 }
