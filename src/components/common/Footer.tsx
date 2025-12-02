@@ -2,34 +2,38 @@ import styles from "@/app/styles/components/Footer.module.scss";
 
 // 1. СТРУКТУРА ДАНИХ Strapi
 interface FooterData {
-  prawa: string;
-  company: string;
-  street: string;
-  city: string;
-  nip: string;
-  regon: string;
-  kapital: string;
-  polityka: string;
+  prawa?: string;
+  company?: string;
+  street?: string;
+  city?: string;
+  nip?: string;
+  regon?: string;
+  kapital?: string;
+  polityka?: string;
 
   privacyPolicyUrl?: string;
 }
 
 interface FooterProps {
-  data: FooterData;
+  data: FooterData | null;
 }
 
 // ✅ Видаляємо "use client" і робимо його Server Component
 export default function Footer({ data }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
+  const {
+    prawa = "© Company",
+    company = "",
+    street = "",
+    city = "",
+    nip = "",
+    regon = "",
+    kapital = "",
+    polityka = "",
+  } = data || {};
   // Деструктуризація для зручності
-  const { prawa, company, street, city, nip, regon, kapital, polityka } = data;
-
-  // 🛑 Якщо data відсутні (наприклад, ще не опубліковані), повертаємо null або placeholder
-  if (!data || !prawa) {
-    console.warn("Footer data is missing or incomplete.");
-    return null;
-  }
+  // const { prawa, company, street, city, nip, regon, kapital, polityka } = data;
 
   return (
     <footer className={styles.footer}>

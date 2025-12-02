@@ -13,10 +13,13 @@ export default async function LanguageLayout({
   children: ReactNode;
   params: { lang: string };
 }) {
-  const lang = params.lang ?? "pl";
+  // const lang = params.lang ?? "pl";
 
-  const { headerData, footerData } = await getLandingPage(lang);
+  // const { headerData, footerData } = await getLandingPage(lang);
+  const { lang } = await params; // ⬅ отримуємо реальний об’єкт
+  const resolvedLang = lang ?? "pl"; // дефолтна мова
 
+  const { headerData, footerData } = await getLandingPage(resolvedLang);
   return (
     <>
       <Header data={headerData} />

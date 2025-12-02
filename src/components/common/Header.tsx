@@ -80,20 +80,30 @@ export default function Header({ data }: HeaderProps) {
     };
   }, [isMobileMenuOpen]);
 
-  // Перевірка даних Strapi
-  if (!data || !data.menu || data.menu.length === 0) {
-    return null;
-  }
+  // // Перевірка даних Strapi
+  // if (!data || !data.menu || data.menu.length === 0) {
+  //   return null;
+  // }
 
-  const header = data;
-
+  // const header = data;
+  const header = {
+    logo: data?.logo ?? null,
+    menu: data?.menu ?? [],
+    address: data?.address ?? "",
+    address_comment: data?.address_comment ?? "",
+    phone: data?.phone ?? "",
+    phone_comment: data?.phone_comment ?? "",
+    instagram_link: data?.instagram_link ?? "",
+    telegram_link: data?.telegram_link ?? "",
+  };
   const relativeLogoUrl = header.logo?.url;
-  const logoAlt = header.logo?.alternativeText || "Logo";
+  // const logoAlt = header.logo?.alternativeText || "Logo";
   const navLinks = header.menu;
   const logoUrl = relativeLogoUrl
     ? `${STRAPI_URL}${relativeLogoUrl}`
     : undefined;
-
+  // const logoUrl = data?.logo?.url ? `${data.logo.url}` : undefined;
+  const logoAlt = data?.logo?.alternativeText ?? "Logo";
   // Хендлер для закриття меню та модалки
   const closeMobileMenuAndContact = () => {
     setIsMobileMenuOpen(false);
@@ -107,22 +117,15 @@ export default function Header({ data }: HeaderProps) {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        {logoUrl ? (
-          // Посилання на головну сторінку поточної мови
-          <Link href={`/${autoLang}/`} className={styles.logo}>
-            <Image
-              src={logoUrl}
-              alt={logoAlt}
-              width={120}
-              height={32}
-              priority
-            />
-          </Link>
-        ) : (
-          <Link href={`/${autoLang}/`} className={styles.logo}>
-            <h1>logo</h1>
-          </Link>
-        )}
+        <Link href={`/${autoLang}/`} className={styles.logo}>
+          <Image
+            src={logoUrl ? logoUrl : "/logo.png"}
+            alt={logoAlt}
+            width={120}
+            height={32}
+            priority
+          />
+        </Link>
 
         {/* Навігація (десктоп) */}
         <nav className={styles.navDesktop}>
