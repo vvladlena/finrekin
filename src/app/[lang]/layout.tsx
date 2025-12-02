@@ -5,14 +5,7 @@ import Footer from "@/components/common/Footer";
 import { ReactNode } from "react";
 
 // export const dynamic = "force-dynamic";
-
-export default async function LanguageLayout({
-  children,
-  params,
-}: {
-  children: ReactNode;
-  params: { lang: string };
-}) {
+export default async function LanguageLayout({ children, params }) {
   const resolvedParams = await params;
   const lang = resolvedParams.lang;
 

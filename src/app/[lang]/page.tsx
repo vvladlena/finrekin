@@ -3,15 +3,7 @@
 import { getLandingPage } from "@/lib/strapi";
 import DynamicZoneRenderer from "@/components/DynamicZoneRenderer/DynamicZoneRenderer";
 
-export default async function HomePage({
-  params,
-}: {
-  params: { lang: string };
-}) {
-  // // Вирішуємо params, щоб гарантовано отримати об'єкт.
-  // const resolvedParams = await Promise.resolve(params);
-  // const lang = resolvedParams.lang;
-
+export default async function HomePage({ params }) {
   const resolvedParams = await params;
   const lang = resolvedParams.lang;
   console.log("ОТРИМАНИЙ LANG:", lang);
