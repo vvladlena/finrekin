@@ -4,7 +4,7 @@ import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import { ReactNode } from "react";
 
-export const dynamic = "auto";
+// export const dynamic = "force-dynamic";
 
 export default async function LanguageLayout({
   children,

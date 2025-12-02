@@ -100,7 +100,9 @@ export default function Header({ data }: HeaderProps) {
     setIsContactOpen(true);
   };
 
-  const langOptions = ["pl", "en", "uk"].filter((lang) => lang !== autoLang);
+  const langOptions = ["pl", "uk", "en", "ru"].filter(
+    (lang) => lang !== autoLang
+  );
 
   return (
     <header className={styles.header}>

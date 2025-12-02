@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function RootPage() {
-  redirect("/pl"); // дефолтна мова
+  return redirect("/pl");
 }
