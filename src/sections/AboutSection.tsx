@@ -11,12 +11,12 @@ const members = [
     image: "/images/member-2.png",
     description: "Starszy księgowy",
   },
-  {
-    id: 3,
-    name: "Name Surname",
-    image: "/images/member-3.png",
-    description: "Opis pracownika",
-  },
+  // {
+  //   id: 3,
+  //   name: "Name Surname",
+  //   image: "/images/member-3.png",
+  //   description: "Opis pracownika",
+  // },
 ];
 
 export default function AboutSection() {

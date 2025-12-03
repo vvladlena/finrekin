@@ -82,7 +82,7 @@ export default function Header() {
           </ul>
 
           {/* Перемикач мов */}
-          <div className={styles.languageSwitcher}>
+          {/* <div className={styles.languageSwitcher}>
             <button
               onClick={() => setIsLangMenuOpen((prev) => !prev)}
               className={styles.langButton}
@@ -118,7 +118,7 @@ export default function Header() {
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* Кнопка гамбургера */}
           <button
