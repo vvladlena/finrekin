@@ -170,7 +170,7 @@ export default function ContactForm({
             <input type="checkbox" name="privacy" required />
             <span>
               Kliknięcie przycisku oznacza akceptację{" "}
-              <a href="/politika" target="_blank" rel="noreferrer noopener">
+              <a href="/privacy" target="_blank" rel="noreferrer noopener">
                 polityki prywatności
               </a>
             </span>
