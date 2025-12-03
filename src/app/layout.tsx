@@ -1,34 +1,36 @@
-// src/app/layout.tsx
-import { ReactNode } from "react";
+import "./styles/globals.scss";
 
-// ✅ Імпортуємо глобальні стилі SCSS тут, у кореневому layout
-import "@/app/styles/globals.scss";
-
-// ✅ Імпортуємо та визначаємо шрифти тут
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
 import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-main",
-  display: "swap",
+  variable: "--font-main", // створює CSS-змінну
+  display: "swap", // щоб не миготів при завантаженні
 });
 
-// ✅ Визначення Metadata (для SEO)
 export const metadata = {
-  title: "My Strapi Next App",
-  description: "Powered by Strapi and Next.js",
+  title: "FinRekin — Profesjonalne usługi księgowe",
+  description:
+    "Pomagamy Twojej firmie skupić się na rozwoju, zajmując się księgowością.",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
-  // ⚠️ У цьому файлі немає params
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    // Тег <html> відповідає за атрибут lang
-    <html lang="pl" suppressHydrationWarning={true}>
-      <head>{/* Тут можуть бути ваші метатеги */}</head>
+    <html lang="pl" className={montserrat.variable}>
+      <body>
+        <Header />
 
-      {/* Застосовуємо змінну шрифту до <body> */}
-      <body className={montserrat.variable}>{children}</body>
+        <main>{children}</main>
+
+        <Footer />
+      </body>
     </html>
   );
 }

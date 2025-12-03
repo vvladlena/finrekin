@@ -1,71 +1,24 @@
-// src/sections/BannerSection.tsx
-"use client";
-
-import { marked } from "marked";
-
-// --- ТИПИ СИРИХ ДАНИХ (Raw Data from Strapi) ---
-
-// Тип для всієї секції
-type RawBannerSection = {
-  id: number;
-  __component: string;
-  title?: string; // Strapi: title (Text)
-  description?: string; // Strapi: description (Rich text/Markdown)
-};
-
-// --- ТИПИ ОБРОБЛЕНИХ ДАНИХ ---
-type ProcessedBannerData = {
-  title: string;
-  descriptionHtml: string;
-};
-
-// --- ТИП ПРОПСІВ ---
-type BannerSectionProps = {
-  data: RawBannerSection | null;
-};
-
-// --- ФУНКЦІЯ МАПУВАННЯ ---
-
-function mapBannerData(rawData: RawBannerSection): ProcessedBannerData {
-  const rawDescription = rawData.description || "";
-
-  return {
-    title: rawData.title || "",
-
-    // ✅ ВИКОРИСТАННЯ MARKED: Перетворюємо Markdown (**текст**) на HTML (<b>текст</b>)
-    descriptionHtml: marked.parse(rawDescription) as string,
-  };
-}
-
-// --- ОСНОВНИЙ КОМПОНЕНТ ---
-export default function BannerSection({ data: rawData }: BannerSectionProps) {
-  if (!rawData) {
-    return null;
-  }
-
-  const bannerData = mapBannerData(rawData);
-
-  // Якщо обидва поля порожні, можемо приховати секцію
-  if (!bannerData.title && !bannerData.descriptionHtml) {
-    return null;
-  }
-
+export default function BannerSection() {
   return (
     <section className="about">
       <div className="container">
         <div className="banner-content">
-          {/* 1. Заголовок (Рендеримо тільки якщо є title) */}
-          {bannerData.title && (
-            <h2 className="banner-title">{bannerData.title}</h2>
-          )}
-
-          {/* 2. Опис (Рендеримо тільки якщо є description) */}
-          {bannerData.descriptionHtml && (
-            <div
-              className="text-standard banner-desc"
-              dangerouslySetInnerHTML={{ __html: bannerData.descriptionHtml }}
-            />
-          )}
+          <h2 className="banner-title">
+            FinRekin to wrocławska firma księgowa obsługująca klientów w całej
+            Polsce
+          </h2>
+          <p className="text-standard banner-desc">
+            Obecnie zaufało nam <b>ponad 200 klientów,</b> od jednoosobowych
+            działalności gospodarczych po spółki o bardziej złożonej strukturze.{" "}
+            <br /> <br />
+            Nasi specjaliści posiadają <b>wieloletnie doświadczenie</b> w
+            dziedzinie księgowości, a dla dodatkowego bezpieczeństwa naszych
+            klientów jesteśmy objęci polisą ubezpieczenia zawodowego. <br />{" "}
+            <br />
+            Używamy <b>Saldeo Smart</b> do wygodnej wymiany dokumentów.
+            Niezależnie od tego, gdzie jesteś - zawsze jesteśmy pod telefonem,
+            gotowi pomóc i zająć się wszystkimi zadaniami księgowymi.
+          </p>
         </div>
       </div>
     </section>

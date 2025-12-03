@@ -47,9 +47,9 @@ ul {
   margin: 0;
 }
 
-li {
-  list-style: none;
-}
+// li {
+//   list-style: none;
+// }
 
 button {
   background: none;
@@ -185,5 +185,47 @@ section {
   a {
     display: none !important;
     opacity: 0 !important;
+  }
+}
+
+.privacy-content {
+  // Встановлюємо стандартний розмір шрифту та висоту рядка, якщо вони були скинуті
+  font-size: 1rem;
+  line-height: 1.6;
+
+  // 1. Відновлення абзаців (створення вертикального інтервалу між текстом)
+  p {
+    margin-bottom: 1em; /* Додаємо відступ знизу для абзаців */
+    margin-top: 1em;
+  }
+
+  // Стилізація списків та елементів
+  ul,
+  ol {
+    padding-left: 2em; /* Відступ зліва для відображення маркера/числа */
+    margin-bottom: 1em; /* Відступ після списку */
+
+    // Забезпечення відступу для вкладених списків
+    ul,
+    ol {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
+  }
+
+  // 2. Стилізація невпорядкованих списків (маркери)
+  ul {
+    list-style-type: disc; /* Тип маркера: точка */
+    list-style: disc outside;
+  }
+
+  // 3. Стилізація впорядкованих списків (нумерація)
+  ol {
+    list-style-type: decimal; /* Тип маркера: число */
+  }
+
+  // 4. Додаткові відступи для елементів списку
+  li {
+    margin-bottom: 0.5em;
   }
 }

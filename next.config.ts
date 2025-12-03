@@ -5,11 +5,8 @@ const nextConfig: NextConfig = {
   /* config options here */
 
   reactCompiler: true,
-  output: isDev ? undefined : "export",
-  // i18n: {
-  //   locales: ["pl", "uk", "en", "ru"],
-  //   defaultLocale: "pl",
-  // },
+  output: isDev ? undefined : "export", // ❗ тільки для продакшену
+
   images: {
     unoptimized: true,
   },
