@@ -8,6 +8,15 @@ const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 // ✅ ВИПРАВЛЕННЯ: Видаляємо можливі пробіли з .env, щоб уникнути помилки 404
 const BOT_TOKEN = BOT_TOKEN_RAW ? BOT_TOKEN_RAW.trim() : BOT_TOKEN_RAW;
 
+// ✅ КРИТИЧНІ ЛОГИ ДЛЯ ДІАГНОСТИКИ НА VERCEL:
+console.log("------------------------------------------");
+console.log(`[VERCEL ENV CHECK] BOT_TOKEN (is defined): ${!!BOT_TOKEN}`);
+console.log(
+  `[VERCEL ENV CHECK] BOT_TOKEN length: ${BOT_TOKEN ? BOT_TOKEN.length : 0}`
+);
+console.log(`[VERCEL ENV CHECK] CHAT_ID (is defined): ${!!CHAT_ID}`);
+console.log("------------------------------------------");
+
 /**
  * Отримує дані з форми (Ім'я, Телефон, Повідомлення) і надсилає їх у Telegram.
  * @returns NextResponse з результатом операції.
