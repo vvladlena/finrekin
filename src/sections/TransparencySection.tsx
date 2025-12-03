@@ -40,7 +40,7 @@ export default function TransparencySection() {
                 },
                 {
                   title: "Usługi dodatkowe",
-                  text: `Oferujemy szereg dodatkowych usług na indywidualne zamówienie. <a href="#">Kliknij tutaj</a>, aby wyświetlić pełną listę.`,
+                  text: `Oferujemy szereg dodatkowych usług na indywidualne zamówienie. <a href="#services">Kliknij tutaj</a>, aby wyświetlić pełną listę.`,
                 },
               ].map((item, index) => (
                 <li className={styles.item} key={index}>
