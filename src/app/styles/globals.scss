@@ -225,3 +225,51 @@ section {
     margin-bottom: 0.5em;
   }
 }
+
+// вибір мови
+/* Приховати Google синій банер */
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+body {
+  top: 0 !important;
+}
+
+/* Приховати маленьку іконку */
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+// /* Стилі елемента SELECT */
+// .goog-te-gadget .goog-te-combo {
+//   padding: 6px 12px;
+//   border-radius: 8px;
+//   border: 1px solid #ccc;
+//   background: white;
+//   font-size: 14px;
+// }
+
+// /* Приховати "Powered by Google" */
+// .goog-logo-link,
+// .goog-te-gadget span {
+//   display: none !important;
+// }
+
+// .language-switcher {
+//   display: flex;
+//   gap: 8px;
+// }
+
+// .language-btn {
+//   padding: 6px 12px;
+//   border-radius: 6px;
+//   border: 1px solid #ddd;
+//   background: white;
+//   cursor: pointer;
+//   font-size: 14px;
+//   transition: 0.2s;
+// }
+
+// .language-btn:hover {
+//   background: #f0f0f0;
+// }

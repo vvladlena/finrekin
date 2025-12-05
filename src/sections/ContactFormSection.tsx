@@ -26,7 +26,7 @@ export default function ContactFormSection() {
                 <ul className="socialLinks" aria-label="Social media links">
                   <li>
                     <a
-                      href="https://t.me/ok_biuro"
+                      href="https://t.me/finrekin"
                       target="_blank"
                       rel="nofollow noopener"
                       aria-label="Telegram"

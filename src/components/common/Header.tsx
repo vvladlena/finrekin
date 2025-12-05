@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "@/app/styles/components/Header.module.scss";
 import ContactForm from "@/components/common/ContactForm/ContactForm";
-
+// import GoogleTranslateScript from "@/components/GoogleTranslateScript";
 export default function Header() {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [language, setLanguage] = useState("PL");
@@ -80,7 +80,7 @@ export default function Header() {
               />
             </li>
           </ul>
-
+          {/* <GoogleTranslateScript /> */}
           {/* Перемикач мов */}
           {/* <div className={styles.languageSwitcher}>
             <button
@@ -189,7 +189,7 @@ export default function Header() {
           <ul className={styles.socialLinks} aria-label="Social media links">
             <li>
               <a
-                href="https://t.me/ok_biuro"
+                href="https://t.me/finrekin"
                 target="_blank"
                 rel="nofollow noopener"
                 aria-label="Telegram"
