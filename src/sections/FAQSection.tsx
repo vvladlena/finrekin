@@ -1,73 +1,27 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { ChevronDown } from "lucide-react";
-
-const faqs = [
-  {
-    question: "Jakiego rodzaju usługi księgowe świadczysz?",
-    answer:
-      "Świadczymy pełen zakres usług księgowych dla firm. Szczegółową listę można znaleźć tutaj.",
-  },
-  {
-    question: "Czy możliwa jest praca zdalna?",
-    answer:
-      "Tak, możesz w pełni współpracować z nami online - wszystkie procesy są organizowane zdalnie.",
-  },
-  {
-    question: "Czy pomagacie w rejestracji firmy w Polsce?",
-    answer:
-      "Tak, pomagamy w rejestracji działalności gospodarczej w Polsce - zarówno jednoosobowej działalności gospodarczej, jak i różnych form spółek (w tym sp. z o.o., komandytowa i inne). Towarzyszymy w procesie od przygotowania dokumentów do uzyskania NIP, REGON i KRS (jeśli są wymagane).",
-  },
-  {
-    question: "Jakie dokumenty są potrzebne do założenia firmy?",
-    answer:
-      "Lista dokumentów zależy od formy działalności i sytuacji. Możesz umówić się na bezpłatną konsultację.",
-  },
-  {
-    question: "Czy można otworzyć firmę w Polsce bez polskiego obywatelstwa?",
-    answer:
-      "Tak, cudzoziemcy mogą otworzyć spółkę w Polsce - zarówno jednoosobową działalność gospodarczą, jak i osobę prawną. Możesz umówić się na bezpłatną konsultację.",
-  },
-  {
-    question: "Jak przekazać dokumenty do działu księgowości?",
-    answer:
-      "Pracujemy za pośrednictwem wygodnego systemu SaldeoSmart - wystarczy zrobić zdjęcie lub zeskanować dokumenty i przesłać je za pośrednictwem aplikacji lub interfejsu internetowego.",
-  },
-  {
-    question: "Ile kosztują usługi?",
-    answer:
-      "Koszt zależy od formy działalności i ilości pracy. Więcej informacji można znaleźć tutaj.",
-  },
-  {
-    question: "Jak zawrzeć umowę o świadczenie usług księgowych?",
-    answer:
-      "Umowę możesz zawrzeć online lub w naszym biurze - jak wolisz. My wszystko przygotujemy.",
-  },
-  {
-    question: "Czy można zmienić księgowego w firmie?",
-    answer:
-      "Tak, możesz przejść do nas w dowolnym momencie. Pomożemy w prawidłowym przeniesieniu dokumentów i zapewnimy płynne przejście bez przerwy w opiece.",
-  },
-];
+import { PortableText } from "@portabletext/react";
+import { useLanguage } from "@/context/LanguageContext";
+import { RICH_TEXT_COMPONENTS } from "@/components/common/RichTextComponents";
+import { FAQSectionData, FAQItem } from "@/types";
 
 function AccordionItem({
   item,
   isOpen,
   onToggle,
-  index,
 }: {
-  item: { question: string; answer: string };
+  item: FAQItem;
   isOpen: boolean;
   onToggle: () => void;
-  index: number;
 }) {
+  const { lang } = useLanguage();
   const contentRef = useRef<HTMLDivElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const el = contentRef.current;
     if (!el) return;
-    // коли відкрито — ставимо maxHeight = scrollHeight, інакше = 0
     if (isOpen) {
       el.style.maxHeight = el.scrollHeight + "px";
       el.style.opacity = "1";
@@ -77,20 +31,12 @@ function AccordionItem({
       el.style.opacity = "0";
       el.style.marginTop = "0";
     }
-    const onTransitionEnd = () => {
-      if (isOpen && el) {
-        el.style.maxHeight = el.scrollHeight + "px";
-      }
-    };
-    el.addEventListener("transitionend", onTransitionEnd);
-    return () => el.removeEventListener("transitionend", onTransitionEnd);
   }, [isOpen]);
 
   return (
     <div
       className={`faq-item ${isOpen ? "open" : ""}`}
       onClick={onToggle}
-      ref={containerRef}
       role="button"
       aria-expanded={isOpen}
       tabIndex={0}
@@ -100,24 +46,27 @@ function AccordionItem({
     >
       <div className="faq-question">
         <span className="dot" />
-        <h3>{item.question}</h3>
+        <h3>{item.question[lang]}</h3>
         <ChevronDown className={`icon ${isOpen ? "rotated" : ""}`} size={20} />
       </div>
 
-      <div
-        className="faq-answer"
-        ref={contentRef}
-        // не рендеримо умовно — елемент завжди в DOM
-        aria-hidden={!isOpen}
-      >
-        <p>{item.answer}</p>
+      <div className="faq-answer" ref={contentRef} aria-hidden={!isOpen}>
+        <div className="rich-text-wrapper">
+          <PortableText
+            value={item.answer[lang]}
+            components={RICH_TEXT_COMPONENTS}
+          />
+        </div>
       </div>
     </div>
   );
 }
 
-export default function FAQSection() {
+export default function FAQSection({ data }: { data: FAQSectionData }) {
+  const { lang } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  if (!data || !data.faqList) return null;
 
   const toggle = (index: number) => {
     setOpenIndex((prev) => (prev === index ? null : index));
@@ -127,20 +76,24 @@ export default function FAQSection() {
     <section className="faq-section">
       <div className="container">
         <div className="section-title">
-          <img src="/images/icons/arrows.svg" alt="section arrows" />
-          <p>FAQ</p>
+          <Image
+            src="/images/icons/arrows.svg"
+            alt="arrows"
+            width={20}
+            height={20}
+          />
+          <p>{data.sectionTitle?.[lang]}</p>
         </div>
 
         <h2 className="standard-title" style={{ marginBottom: 40 }}>
-          Częste pytania
+          {data.mainTitle?.[lang]}
         </h2>
 
         <div className="faq-grid">
-          {faqs.map((item, index) => (
+          {data.faqList.map((item, index) => (
             <AccordionItem
-              key={index}
+              key={item._key || index}
               item={item}
-              index={index}
               isOpen={openIndex === index}
               onToggle={() => toggle(index)}
             />

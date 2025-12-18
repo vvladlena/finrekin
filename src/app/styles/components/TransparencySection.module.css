@@ -1,0 +1,118 @@
+.transparency {
+  padding: 4rem 0;
+}
+.transparency .wrapper {
+  display: grid;
+  grid-template-columns: 59% 40%;
+  gap: 1%;
+  align-items: stretch;
+}
+@media (max-width: 900px) {
+  .transparency .wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+.transparency .content {
+  background: url("/images/background/transparency-bg.svg") no-repeat center/cover;
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid #edeeef;
+}
+.transparency .title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 1rem;
+  line-height: 24px;
+}
+.transparency .highlight {
+  color: var(--color-secondary);
+}
+.transparency .description {
+  color: var(--color-textStandard);
+  margin-bottom: 2rem;
+  line-height: 16px;
+  font-size: 12px;
+}
+.transparency .list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.transparency .item {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+.transparency .item > * {
+  flex: 1 1 50%;
+}
+.transparency .itemTitle {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  margin-right: 16px;
+  font-size: 14px;
+  line-height: 18px;
+  position: relative;
+  padding-left: 40px;
+}
+.transparency .itemTitle::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 10px;
+  background-image: url("/images/icons/arrows-blue.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.transparency .itemText {
+  color: #555;
+  line-height: 16px;
+  font-size: 12px;
+}
+.transparency .itemText a {
+  color: var(--color-secondary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+.transparency .images {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+.transparency .images .imageTop,
+.transparency .images .imageBottom {
+  border-radius: 20px;
+  overflow: hidden;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+}
+@media (max-width: 900px) {
+  .transparency .images .imageTop,
+  .transparency .images .imageBottom {
+    min-height: 350px;
+  }
+}
+.transparency .images .image {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  display: block;
+}
+@media (max-width: 900px) {
+  .transparency .images {
+    flex-direction: row;
+  }
+}/*# sourceMappingURL=TransparencySection.module.css.map */

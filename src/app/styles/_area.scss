@@ -25,6 +25,15 @@
   width: 65px;
   height: 65px;
 }
+
+.area-icon-wrapper {
+  img {
+    width: 65px;
+    height: 65px;
+    min-width: 65px;
+    min-height: 65px;
+  }
+}
 // }
 
 .area-title {

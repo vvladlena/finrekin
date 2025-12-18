@@ -4,107 +4,60 @@ import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import styles from "@/app/styles/components/ContactForm.module.scss";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ContactFormProps {
+  formData: any; // Об'єкт formFieldsData
   mode?: "static" | "modal";
-  isOpen?: boolean; // тільки для modal
-  onClose?: () => void; // тільки для modal
+  isOpen?: boolean;
+  onClose?: () => void;
   variant?: "default" | "comment" | "customBg";
   bgColor?: string;
 }
 
-// ✅ ОГОЛОШЕННЯ СТАНУ НА ВЕРХНЬОМУ РІВНІ
 type Status = "idle" | "loading" | "success" | "error";
 
 export default function ContactForm({
+  formData,
   mode = "static",
   isOpen = true,
   onClose,
   variant = "default",
   bgColor,
 }: ContactFormProps) {
+  const { lang } = useLanguage();
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const [phone, setPhone] = useState(""); // Використовує PhoneInput
+  const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<Status>("idle");
 
-  // Видаляємо isSubmitted і використовуємо status === "success"
+  if (mode === "modal" && !isOpen) return null;
+  if (!formData) return null;
 
   const isSubmitting = status === "loading";
 
-  if (mode === "modal" && !isOpen) return null;
-
-  // ✅ АСИНХРОННА ФУНКЦІЯ ОБРОБКИ ВІДПРАВКИ
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Запобігаємо стандартній відправці форми
-
-    if (isSubmitting) return; // Запобігання подвійній відправці
-
-    // ✅ ДОДАТКОВА ПЕРЕВІРКА: чи користувач дійсно ввів дані?
-    if (!name || !phone) {
-      setStatus("error");
-      return;
-    }
-
+    e.preventDefault();
+    if (isSubmitting) return;
     setStatus("loading");
 
-    const dataToSend = {
-      name: name,
-      phone: phone,
-      message: message, // Поле message буде порожнім, якщо воно не відображається
-    };
-
     try {
-      // ✅ Змінюємо шлях, щоб він відповідав стандартній практиці (наприклад, /api/telegram)
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataToSend),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone, message }),
       });
 
       if (response.ok) {
-        const result = await response.json();
-
-        // Перевірка, чи API Route повернув успішний результат
-        if (result.success) {
-          setStatus("success");
-          // Очищення форми
-          setName("");
-          setMessage("");
-          setPhone("");
-          // Якщо потрібно закрити модалку після успіху: onClose?.();
-        } else {
-          // Помилка від API Route (наприклад, Telegram Bot API повернув помилку)
-          setStatus("error");
-          console.error(
-            "Telegram API Route error:",
-            result.message || "Unknown error"
-          );
-        }
+        setStatus("success");
+        setName("");
+        setMessage("");
+        setPhone("");
       } else {
-        // Помилка мережі або помилка сервера (4xx/5xx)
         setStatus("error");
-        console.error("HTTP error:", response.status, response.statusText);
       }
     } catch (error) {
-      console.error("Fetch error during form submission:", error);
       setStatus("error");
-    }
-  };
-
-  // Допоміжна функція для динамічного тексту кнопки
-  const getButtonContent = (defaultText: string) => {
-    switch (status) {
-      case "loading":
-        return "Wysyłanie...";
-      case "success":
-        return "Wysłano!";
-      case "error":
-        return "Błąd, spróbuj ponownie";
-      default:
-        return defaultText;
     }
   };
 
@@ -114,42 +67,29 @@ export default function ContactForm({
       onClick={mode === "modal" ? onClose : undefined}
     >
       <div
-        className={`${styles.contactForm} ${
-          variant === "customBg" ? styles.contactForm__customBg : ""
-        }`}
+        className={`${styles.contactForm} ${variant === "customBg" ? styles.contactForm__customBg : ""}`}
         onClick={(e) => e.stopPropagation()}
         style={
           variant === "customBg" ? { backgroundColor: bgColor } : undefined
         }
       >
-        {mode === "modal" && (
-          <button className={styles.contactForm__close} onClick={onClose}>
-            ×
-          </button>
-        )}
-
-        <h2 className={styles.contactForm__title}>Zostaw prośbę</h2>
+        <h2 className={styles.contactForm__title}>{formData.title[lang]}</h2>
 
         <form className={styles.contactForm__body} onSubmit={handleSubmit}>
           <div className={styles.contactForm__group}>
-            {/* ✅ ПРИВ'ЯЗКА ПОЛЯ NAME ДО СТАНУ */}
             <input
               type="text"
-              name="name"
               className={styles.contactForm__input}
-              placeholder="Jak mam się do ciebie zwracać?"
+              placeholder={formData.namePlaceholder[lang]}
               required
-              value={name} // ✅ VALUE
-              onChange={(e) => setName(e.target.value)} // ✅ ONCHANGE
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
-
-            {/* Телефон */}
             <div className={styles.phoneWrapper}>
               <PhoneInput
                 country={"pl"}
                 value={phone}
                 onChange={setPhone}
-                enableSearch={true}
                 inputClass={styles.contactForm__input}
                 inputProps={{ name: "phone", required: true }}
               />
@@ -157,21 +97,20 @@ export default function ContactForm({
           </div>
 
           {variant !== "default" && (
-            // ✅ ПРИВ'ЯЗКА ПОЛЯ MESSAGE ДО СТАНУ
             <textarea
               className={styles.contactForm__textarea}
-              placeholder="Napisz, w jakiej sprawie możemy Ci pomóc"
-              value={message} // ✅ VALUE
-              onChange={(e) => setMessage(e.target.value)} // ✅ ONCHANGE
+              placeholder={formData.messagePlaceholder[lang]}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
             />
           )}
 
           <label className={styles.contactForm__checkbox}>
-            <input type="checkbox" name="privacy" required />
+            <input type="checkbox" required />
             <span>
-              Kliknięcie przycisku oznacza akceptację{" "}
-              <a href="/privacy" target="_blank" rel="noreferrer noopener">
-                polityki prywatności
+              {formData.privacyText[lang]}
+              <a href="/privacy" target="_blank">
+                {formData.privacyLink[lang]}
               </a>
             </span>
           </label>
@@ -179,21 +118,20 @@ export default function ContactForm({
           <button
             type="submit"
             className={styles.contactForm__submit}
-            disabled={isSubmitting} // Запобігаємо повторній відправці під час "loading"
+            disabled={isSubmitting}
           >
-            {getButtonContent("Uzyskaj poradę")}
+            {status === "loading"
+              ? formData.sendingText[lang]
+              : status === "success"
+                ? formData.successText[lang]
+                : status === "error"
+                  ? formData.errorText[lang]
+                  : formData.submitButton[lang]}
           </button>
 
-          {/* ✅ ВИКОРИСТАННЯ НОВОГО СТАТУСУ */}
           {status === "success" && (
             <p className={styles.contactForm__success}>
-              Dziękujemy! Dane wysłane pomyślnie.
-            </p>
-          )}
-
-          {status === "error" && (
-            <p className={styles.contactForm__error}>
-              Wystąpił błąd. Proszę spróbować ponownie później.
+              {formData.thankYouMessage[lang]}
             </p>
           )}
         </form>

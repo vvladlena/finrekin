@@ -2,93 +2,95 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { PortableText } from "@portabletext/react";
 import ContactForm from "@/components/common/ContactForm/ContactForm";
+import { useLanguage } from "@/context/LanguageContext";
+import { urlFor } from "@/lib/sanity";
+import { RICH_TEXT_COMPONENTS } from "@/components/common/RichTextComponents";
+import { OffersSectionData, FormFieldsData } from "@/types";
 
-const offers = [
-  {
-    id: 1,
-    title: "Dla nowych klientów oferujemy atrakcyjne zniżki!",
-    image: "/images/offer-1.png",
-    icon: "/images/icons/offer.svg",
-    buttonText: "Zostaw prośbę →",
-    bg: "/images/background/offer-bg-1.png",
-  },
-  {
-    id: 2,
-    title:
-      "Poleć nasze usługi księgowe swoim przyjaciołom i znajomym, a otrzymasz atrakcyjne bonusy",
-    image: "/images/offer-2.png",
-    icon: "/images/icons/offer.svg",
-    buttonText: "Zostaw prośbę →",
-    bg: "/images/background/offer-bg-2.png",
-  },
-  {
-    id: 3,
-    title: "Zniżki i bonusy dla stałych klientów",
-    image: "/images/offer-3.png",
-    icon: "/images/icons/offer.svg",
-    buttonText: "Zostaw prośbę →",
-    bg: "/images/background/offer-bg-3.png",
-  },
-];
+interface OffersSectionProps {
+  data: OffersSectionData;
+  formFields: FormFieldsData;
+}
 
-export default function OffersSection() {
+export default function OffersSection({
+  data,
+  formFields,
+}: OffersSectionProps) {
+  const { lang } = useLanguage();
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  if (!data || !data.offersList) return null;
 
   const handleOpenForm = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsFormOpen(true);
   };
 
+  const { mainTitle, mainSubtitle, mainButtonText, offersList } = data;
+
   return (
     <section className="offers">
       <div className="container">
         <div className="offers-grid">
-          {/* Основна пропозиція */}
           <div className="offer-content offer-content--main">
             <h2 className="standard-title">
-              <span className="text-secondary">Aktualne oferty</span> dla
-              naszych klientów
+              {mainTitle?.[lang] && (
+                <PortableText
+                  value={mainTitle[lang]}
+                  components={RICH_TEXT_COMPONENTS}
+                />
+              )}
             </h2>
-            <p className="text-standard">
-              Skontaktuj się z nami, aby uzyskać więcej informacji!
-            </p>
+            <p className="text-standard">{mainSubtitle?.[lang]}</p>
             <button className="btn-bold" onClick={handleOpenForm}>
-              Zostaw prośbę
+              {mainButtonText?.[lang]}
             </button>
           </div>
 
-          {/* Карточки пропозицій */}
-          {offers.map((offer) => (
-            <div
-              className="offer-card"
-              style={{ backgroundImage: `url(${offer.bg})` }}
-              key={offer.id}
-            >
-              <div className="offer-content">
-                <Image
-                  src={offer.icon}
-                  alt="icon"
-                  width={60}
-                  height={60}
-                  className="offer-icon"
-                />
-                <p className="offer-text">{offer.title}</p>
-                <button
-                  type="button"
-                  className="btn-secondary btn-secondary--invert"
-                  onClick={handleOpenForm}
-                >
-                  {offer.buttonText}
-                </button>
+          {offersList.map((offer) => {
+            const bgUrl = offer.bg?.asset
+              ? urlFor(offer.bg).url()
+              : offer.bg?.mockPath || null;
+
+            const iconSrc = offer.icon?.asset
+              ? urlFor(offer.icon).url()
+              : offer.icon?.mockPath || "/images/icons/offer-fallback.svg";
+
+            return (
+              <div
+                className="offer-card"
+                style={bgUrl ? { backgroundImage: `url(${bgUrl})` } : {}}
+                key={offer._key}
+              >
+                <div className="offer-content">
+                  {iconSrc && (
+                    <Image
+                      src={iconSrc}
+                      alt={offer.title?.[lang] || "offer icon"}
+                      width={60}
+                      height={60}
+                      className="offer-icon"
+                    />
+                  )}
+                  <p className="offer-text">{offer.title?.[lang]}</p>
+                  <button
+                    type="button"
+                    className="btn-secondary btn-secondary--invert"
+                    onClick={handleOpenForm}
+                  >
+                    {offer.buttonText?.[lang]}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      {/* Модальне вікно з формою */}
       <ContactForm
+        formData={formFields}
         mode="modal"
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}

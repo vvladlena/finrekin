@@ -1,32 +1,47 @@
 "use client";
+
 import Image from "next/image";
-
 import { useState } from "react";
+import { PortableText } from "@portabletext/react";
 import ContactForm from "@/components/common/ContactForm/ContactForm";
+import { useLanguage } from "@/context/LanguageContext";
+import { RICH_TEXT_COMPONENTS } from "@/components/common/RichTextComponents";
+import { urlFor } from "@/lib/sanity";
+import { HeroData, FormFieldsData } from "@/types";
 
-export default function Hero() {
+interface HeroProps {
+  heroData: HeroData;
+  formFields: FormFieldsData;
+}
+
+export default function Hero({ heroData, formFields }: HeroProps) {
+  const { lang } = useLanguage();
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  if (!heroData || !heroData.title?.[lang]) {
+    return null;
+  }
+
+  const handleClick = () => setIsFormOpen(true);
+
   return (
     <section className="hero">
       <div className="container">
         <div className="section-wrapper">
           <h1 className="hero-title text-primary">
-            FINREKIN - zaufane{" "}
-            <span className="text-secondary">biuro rachunkowe</span> we
-            Wrocławiu
+            <PortableText
+              value={heroData.title[lang]}
+              components={RICH_TEXT_COMPONENTS}
+            />
           </h1>
+
           <div className="description-wrapper">
-            <p className="description-txt">
-              Pomagamy firmom rozwijać się, zapewniając{" "}
-              <strong>niezawodne wsparcie księgowe,</strong> oferując
-              rozwiązania, które sprawiają, że księgowość jest prosta, a kwestie
-              podatkowe przewidywalne.
-            </p>
-            <button className="btn-primary" onClick={() => setIsFormOpen(true)}>
-              Skontaktuj się z nami
+            <p className="description-txt">{heroData.subtitle?.[lang]}</p>
+            <button className="btn-primary" onClick={handleClick}>
+              {heroData.buttonText?.[lang]}
               <Image
                 src="/images/icons/arrows.svg"
-                alt="strzałki"
+                alt="arrows"
                 width={20}
                 height={20}
                 className="btn-icon"
@@ -34,79 +49,68 @@ export default function Hero() {
             </button>
           </div>
         </div>
+
         <div className="hero-image">
+          {/* ✅ Використовуємо Sanity URL або fallback */}
           <Image
-            src="/images/hero-img.png"
-            alt="księgowy Wrocław"
-            width={0}
-            height={0}
+            src={
+              heroData.image?.asset
+                ? urlFor(heroData.image).url()
+                : "/images/hero-fallback.png"
+            }
+            alt="Hero image"
+            width={900}
+            height={600}
+            priority
             sizes="100vw"
           />
         </div>
+
         <ul className="hero-list">
-          <li className="hero-item">
-            <Image
-              src="/images/icons/service-1.svg"
-              alt="service"
-              width={50}
-              height={50}
-              className="service-icon"
-            />
-            <h3 className="hero-service">Księgowość</h3>
-            <a href="#services" className="btn-secondary">
-              Sprawdź koszt →
-            </a>
-          </li>
-          <li className="hero-item">
-            <Image
-              src="/images/icons/service-2.svg"
-              alt="service"
-              width={50}
-              height={50}
-              className="service-icon"
-            />
-            <h3 className="hero-service">Legalizacja pobytu</h3>
-            <a href="#services" className="btn-secondary">
-              Sprawdź koszt →
-            </a>
-          </li>
-          <li className="hero-item invert">
-            <Image
-              src="/images/icons/service-3.svg"
-              alt="service"
-              width={50}
-              height={50}
-              className="service-icon"
-            />
-            <h3 className="hero-service">Skontaktuj się z nami</h3>
+          {heroData.services?.map((service, idx) => {
+            const isModalService = idx === 2;
+            const serviceIcon = service.icon?.asset
+              ? urlFor(service.icon).url()
+              : service.icon?.mockPath || "/images/icons/service-fallback.svg";
 
-            <button
-              className="btn-secondary btn-secondary--invert"
-              onClick={() => setIsFormOpen(true)}
-            >
-              Zostaw prośbę →
-            </button>
+            return (
+              <li
+                key={service._key || idx}
+                className={`hero-item${isModalService ? " invert" : ""}`}
+              >
+                <Image
+                  src={serviceIcon}
+                  alt={service.title?.[lang] || "service icon"}
+                  width={50}
+                  height={50}
+                  className="service-icon"
+                />
+                <h3 className="hero-service">{service.title?.[lang]}</h3>
 
-            <ContactForm
-              mode="modal"
-              isOpen={isFormOpen}
-              onClose={() => setIsFormOpen(false)}
-              variant="comment"
-            />
-          </li>
-          <li className="hero-item">
-            <Image
-              src="/images/icons/service-4.svg"
-              alt="service"
-              width={50}
-              height={50}
-              className="service-icon"
-            />
-            <h3 className="hero-service">Usługi dodatkowe</h3>
-            <a href="#services" className="btn-secondary">
-              Sprawdź koszt →
-            </a>
-          </li>
+                {isModalService ? (
+                  <>
+                    <button
+                      className="btn-secondary btn-secondary--invert"
+                      onClick={handleClick}
+                    >
+                      {service.buttonText?.[lang]}
+                    </button>
+                    <ContactForm
+                      formData={formFields}
+                      mode="modal"
+                      isOpen={isFormOpen}
+                      onClose={() => setIsFormOpen(false)}
+                      variant="comment"
+                    />
+                  </>
+                ) : (
+                  <a href="#services" className="btn-secondary">
+                    {service.buttonText?.[lang]}
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>

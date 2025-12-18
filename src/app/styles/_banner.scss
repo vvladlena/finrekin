@@ -14,9 +14,15 @@
   color: #fff;
   width: 40%;
 }
+.banner-content-wrapper {
+  width: 40%;
+}
 .text-standard.banner-desc {
   color: #fff;
-  width: 40%;
+  margin-bottom: 20px;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -29,7 +35,7 @@
     .banner-title {
       width: 100%;
     }
-    .text-standard.banner-desc {
+    .banner-content-wrapper {
       width: 100%;
     }
   }

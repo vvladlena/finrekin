@@ -1,71 +1,103 @@
 "use client";
 
 import ContactForm from "@/components/common/ContactForm/ContactForm";
+import { useLanguage } from "@/context/LanguageContext";
+import { getImageUrl } from "@/lib/imageUtils";
+import { ContactSectionData, FormFieldsData } from "@/types";
+import Image from "next/image";
+import { urlFor } from "@/lib/sanity"; // ✅ Додаємо імпорт для Sanity зображень
 
-export default function ContactSection() {
+interface ContactSectionProps {
+  data: ContactSectionData;
+  formFields: FormFieldsData;
+}
+
+export default function ContactSection({
+  data,
+  formFields,
+}: ContactSectionProps) {
+  const { lang } = useLanguage();
+
+  if (!data) return null;
+
   return (
     <section className="contact-section" id="contact">
       <div className="container">
         <div className="contact-wrapper">
-          {/* <div className="contact-text"> */}
-
           <div className="standard-content">
             <div className="section-title">
-              <img src="/images/icons/arrows.svg" alt="section arrows" />
-              <p>Kontakt</p>
+              <Image
+                src="/images/icons/arrows.svg"
+                alt="arrows"
+                width={20}
+                height={20}
+              />
+              {/* ✅ Безпечне звернення до перекладу */}
+              <p>{data.sectionTitle?.[lang]}</p>
             </div>
+
             <div className="phone-wrapper">
-              <a href="tel:+48608771993" className="contact-link">
-                +48 608 771 993
+              <a href={`tel:${data.phone}`} className="contact-link">
+                {data.phone}
               </a>
-              {/* <p>Skontaktuj się z nami</p> */}
             </div>
+
             <div className="link-wrapper">
               <a
-                href="https://www.google.com/maps/place/Wrocław,+Parkowa+25"
+                href={data.addressUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="contact-link"
               >
-                <p>ul. Parkowa 25</p>
-                <p>51-516 Wrocław</p>
+                <p>{data.addressLine1?.[lang]}</p>
+                <p>{data.addressLine2?.[lang]}</p>
               </a>
             </div>
-            <a href="mailto:finrekin.wro@gmail.com" className="contact-link">
-              finrekin.wro@gmail.com
-            </a>
-            <div className="link-wrapper">
-              <ul className="social-links" aria-label="Social media links">
-                <li>
-                  <a
-                    href="https://t.me/finrekin"
-                    target="_blank"
-                    rel="nofollow noopener"
-                    aria-label="Telegram"
-                    className="contact-link"
-                  >
-                    <img src="/images/icons/telegram-blue.svg" alt="" />
-                  </a>
-                </li>
 
-                <li>
-                  <a
-                    href="https://www.instagram.com/finrekin_biuro"
-                    target="_blank"
-                    rel="nofollow noopener"
-                    aria-label="Instagram"
-                    className="contact-link"
-                  >
-                    <img src="/images/icons/instagram-blue.svg" alt="" />
-                  </a>
-                </li>
+            <a href={`mailto:${data.email}`} className="contact-link">
+              {data.email}
+            </a>
+
+            <div className="link-wrapper">
+              <ul className="social-links">
+                {/* ✅ Додано ?. перед map для безпеки */}
+                {data.socials?.map((social) => {
+                  // ✅ ОБЧИСЛЮЄМО SRC: Sanity asset -> mockPath -> null
+                  const socialIconSrc = social.icon?.asset
+                    ? urlFor(social.icon).url()
+                    : social.icon?.mockPath || null;
+
+                  return (
+                    <li key={social._key}>
+                      <a
+                        href={social.url}
+                        target="_blank"
+                        rel="nofollow noopener"
+                        className="contact-link"
+                      >
+                        {/* ✅ РЕНДЕРИМО Image ТІЛЬКИ ЯКЩО Є SRC */}
+                        {socialIconSrc ? (
+                          <Image
+                            src={socialIconSrc}
+                            alt="social icon"
+                            width={32}
+                            height={32}
+                          />
+                        ) : (
+                          /* Заглушка, якщо іконку не додано */
+                          <span style={{ fontSize: "12px" }}>Link</span>
+                        )}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
-          {/* </div> */}
+
           <ContactForm
-            isOpen={true}
-            onClose={() => {}}
+            formData={formFields}
+            mode="static"
             variant="customBg"
             bgColor="#f9fafb"
           />
