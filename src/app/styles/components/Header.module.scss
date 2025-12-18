@@ -179,13 +179,13 @@
     pointer-events: all;
   }
 }
-
-/* Мобільне меню (виїжджає з правого боку) */
+/* Мобільне меню */
 .navMobile {
   position: fixed;
   top: 0;
-  right: -300px; /* початково сховане */
+  right: -300px;
   height: 100vh;
+  width: 100%; /* Додаємо для надійності */
   max-width: 300px;
   background: var(--color-secondary);
   color: var(--color-neutral);
@@ -193,40 +193,49 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 1.5rem;
   box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
-  // z-index: 50;
+  z-index: 100;
   transition: right 0.3s ease;
 
   &.open {
-    right: 0; /* показується */
+    right: 0;
   }
 
-  a {
-    text-decoration: none;
-    color: inherit;
-    font-size: 1rem;
-    transition: color 0.2s ease;
+  /* ✅ Новий блок для посилань */
+  .navMobileLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 
-    &:hover {
-      color: var(--color-textSecondary);
+    a {
+      text-decoration: none;
+      color: inherit;
+      font-size: 1.1rem; /* Трохи збільшили для зручності */
+      font-weight: 500;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--color-textSecondary);
+      }
     }
   }
 
-  /* Блок з адресою */
+  /* Блок з адресою та соцмережами */
   .mobileAddress {
     margin-top: auto;
-    padding-top: 1rem;
+    padding-top: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.5rem;
     align-items: flex-start;
 
     .contact {
       font-size: 0.9rem;
       color: var(--color-neutral);
       text-decoration: none;
+      line-height: 1.4;
       transition: color 0.2s ease;
 
       &:hover {
@@ -235,13 +244,45 @@
     }
 
     .linkSmall {
-      font-size: 8px;
+      font-size: 10px; /* Трохи збільшили з 8px для читабельності */
       text-decoration: underline;
       color: var(--color-neutral);
-      transition: color 0.2s ease;
+      opacity: 0.8;
+      transition: all 0.2s ease;
 
       &:hover {
+        opacity: 1;
         color: var(--color-textSecondary);
+      }
+    }
+
+    /* ✅ Стилі для іконок соцмереж */
+    .socialLinks {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      list-style: none;
+      padding: 0;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-neutral);
+        transition:
+          transform 0.2s ease,
+          color 0.2s ease;
+
+        &:hover {
+          transform: translateY(-3px);
+          color: var(--color-textSecondary);
+        }
+      }
+
+      .socialIcon {
+        object-fit: contain;
+        /* Якщо іконки SVG, вони будуть наслідувати колір тексту через currentColor, 
+           якщо вони картинки - просто відобразяться як є */
       }
     }
   }
