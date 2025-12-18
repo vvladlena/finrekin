@@ -4,9 +4,15 @@ import {
   PortableTextMarkComponentProps,
 } from "@portabletext/react";
 
+// Визначаємо інтерфейси, що розширюють базовий тип Sanity
 interface HighlightValue {
   _type: "highlight";
   color?: "text-primary" | "text-secondary";
+}
+
+interface LinkValue {
+  _type: "link";
+  href: string;
 }
 
 const customMarks: PortableTextComponents["marks"] = {
@@ -14,15 +20,11 @@ const customMarks: PortableTextComponents["marks"] = {
     children,
     value,
   }: PortableTextMarkComponentProps<HighlightValue>) => {
-    // У нових версіях PortableText дані лежать у 'value', а не в 'mark'
     const colorClass = value?.color || "text-secondary";
     return <span className={colorClass}>{children}</span>;
   },
 
-  link: ({
-    children,
-    value,
-  }: PortableTextMarkComponentProps<{ href: string }>) => {
+  link: ({ children, value }: PortableTextMarkComponentProps<LinkValue>) => {
     const href = value?.href || "";
     const isExternal = !href.startsWith("/");
 
