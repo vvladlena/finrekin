@@ -5,7 +5,7 @@ export const client = createClient({
   projectId: "3r7lt5i2", // беремо з sanity.json
   dataset: "production",
   apiVersion: "2023-03-01", // поточна дата або остання стабільна
-  useCdn: true, // швидке читання, без приватних даних
+  useCdn: false,
 });
 // Функція для генерації URL для зображень
 const builder = createImageUrlBuilder(client);

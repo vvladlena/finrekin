@@ -12,6 +12,8 @@ import PriceSection from "@/sections/PriceSection";
 import ContactFormSection from "@/sections/ContactFormSection";
 import ContactSection from "@/sections/ContactSection";
 
+export const revalidate = 60;
+
 export default async function HomePage() {
   // ✅ 1. Використовуємо готову функцію, яку ми створили в dataFetcher.ts
   // Вона вже об'єднує primary та secondary документи всередині себе.
