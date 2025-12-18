@@ -73,6 +73,11 @@ export default function ContactForm({
           variant === "customBg" ? { backgroundColor: bgColor } : undefined
         }
       >
+        {mode === "modal" && (
+          <button className={styles.contactForm__close} onClick={onClose}>
+            ×
+          </button>
+        )}
         <h2 className={styles.contactForm__title}>{formData.title[lang]}</h2>
 
         <form className={styles.contactForm__body} onSubmit={handleSubmit}>
