@@ -80,7 +80,7 @@
 }
 
 .linkSmall {
-  font-size: 8px;
+  font-size: 10px;
   text-decoration: underline;
   color: var(--color-neutral);
   background: none;
@@ -89,7 +89,7 @@
   cursor: pointer;
   text-align: left;
   transition: color 0.2s ease;
-
+  font-weight: 500;
   &:hover {
     color: var(--color-textSecondary);
   }
@@ -263,7 +263,9 @@
       width: 36px;
       height: 36px;
       color: var(--color-neutral);
-      transition: color 0.3s ease, transform 0.2s ease;
+      transition:
+        color 0.3s ease,
+        transform 0.2s ease;
 
       &:hover {
         color: var(--color-textSecondary);
